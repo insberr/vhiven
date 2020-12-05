@@ -1,5 +1,5 @@
-module main
+module vhiven
 
-fn main() {
+pub fn hello() {
 	println('Hello World!')
 }
