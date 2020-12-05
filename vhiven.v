@@ -1,5 +1,16 @@
 module vhiven
+import src.websocket
 
-pub fn hello() {
-	println('Hello World!')
+pub struct Client {
+pub mut:
+	user string
+}
+
+pub fn new_client() Client {
+	c := Client{user: 'insbott'}
+	return c
+}
+
+pub fn (c Client) login(token string) {
+	println('Logged in: Token: $token')
 }
