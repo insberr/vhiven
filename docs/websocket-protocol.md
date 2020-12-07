@@ -6,8 +6,6 @@ Based on [this](https://github.com/hivenapp/hiven.js/blob/master/lib/)
 The websocket protocol uses json as its medium
 The json is seperated into two parts:
 
-NOTE: There are multiple urls for sending data too, most of the time its `wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json` however for some it uses `wss://us-east1-rtc-staging.hiven.io` (most likely the second url is for voice stuff, idk)
-
 * The opcode
 * The data (optional)
 
@@ -15,7 +13,8 @@ The json data looks like this
 ```json
 {"op":opcode, "data":data}
 ```
-
+NOTE: There are multiple urls for sending data too, most of the time its `wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json` however for some it uses `wss://us-east1-rtc-staging.hiven.io` (most likely the second url is for voice stuff, idk)
+The WS object in the source code ([this](https://github.com/hivenapp/hiven.js/blob/master/lib/Websocket/index.ts#L15)) always connects to the first one
 # Known opcodes with examples
 
 ## Client -> Server
