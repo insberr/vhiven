@@ -17,9 +17,7 @@ NOTE: There are multiple urls for sending data too, most of the time its `wss://
 The WS object in the source code ([this](https://github.com/hivenapp/hiven.js/blob/master/lib/Websocket/index.ts#L15)) always connects to the first one
 
 # TODO
-There is more to this.
-I'm sure of it
-I just have to find it
+Add descriptions and arguments to the events
 
 # Known opcodes
 
