@@ -11,11 +11,12 @@ Also waiting for Hiven to have an api documentation
 
 
 ### Help
-Looking for help join my development Hiven house => https://hiven.house/4kjf9j
+Looking for help join my development Discord server or Hiven house => https://hiven.house/4kjf9j
 
 
 ## Maintainers
 - [Insberr](https://github.com/insberr/)
+- [Wackery](https://github.com/webmsgr/)
 
 
 ## License
