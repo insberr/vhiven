@@ -52,7 +52,36 @@ Connect/Disconnect from a voice?
 Voice chat heartbeat???
 
 
-## Server -> Client
-
-### Opcode 1
-Heartbeat ping, also sets the interval in which heartbeats are sent
+## Server -> Client Events
+These events use a different format to the opcodes
+```json
+{
+    "e": "event", // Event 
+    "d": "data" // data
+}
+```
+see [here](https://github.com/hivenapp/hiven.js/blob/master/lib/Client.ts#L85)
+### INIT_STATE
+TODO
+### ROOM_CREATE
+TODO
+### ROOM_UPDATE
+TODO
+### ROOM_DELETE
+TODO
+### MESSAGE_CREATE
+TODO
+### MESSAGE_UPDATE
+TODO
+### MESSAGE_DELETE
+TODO
+### TYPING_START
+TODO
+### HOUSE_JOIN
+TODO
+### HOUSE_MEMBER_JOIN
+TODO
+### HOUSE_MEMBER_LEAVE
+TODO
+### CALL_CREATE
+TODO 
