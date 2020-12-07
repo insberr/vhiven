@@ -1,5 +1,20 @@
 # Rest API Docs
-Taken from [here](https://github.com/FrostbyteSpace/easyhiven.js/blob/main/TODO.md)
+
+Taken from [here](https://github.com/FrostbyteSpace/easyhiven.js/blob/main/TODO.md) and [here](https://github.com/hivenapp/hiven.js/tree/master/lib)
+
+# Basics
+
+Endpoint: https://api.hiven.io/v1
+
+# Headers
+
+The authorization header is set to your token
+
+# TODO
+Add return format stuff (what does each endpoint return?)
+
+# API
+
 ## Houses
 ### POST /houses 
 creates a house 
@@ -124,5 +139,3 @@ changes room settings
     - 2: none
 
 
-# TODO
-Add return format stuff (what does each endpoint return?)
