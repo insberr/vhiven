@@ -11,11 +11,11 @@ The json is seperated into two parts:
 
 The json data looks like this
 ```json
-{"op":opcode, "data":data}
+{"op":0, "data":{"arg1":"val1","arg2":"val2"}}
 ```
 NOTE: There are multiple urls for sending data too, most of the time its `wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json` however for some it uses `wss://us-east1-rtc-staging.hiven.io` (most likely the second url is for voice stuff, idk)
 The WS object in the source code ([this](https://github.com/hivenapp/hiven.js/blob/master/lib/Websocket/index.ts#L15)) always connects to the first one
-# Known opcodes with examples
+# Known opcodes
 
 ## Client -> Server
 
