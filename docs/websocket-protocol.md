@@ -45,7 +45,17 @@ Connect/Disconnect from a voice?
 #### Arguments
 * room_id: null / a room id (null = disconnect)
 * muted: Bool, weather you are muted
-
+### Opcode 7
+Request House Members, you can use this to request a chunk of house members
+```json
+{
+  "op": 7,
+  "d": {
+    "house_id": "string",
+    "user_ids": "string[]"
+  }
+}
+```
 ### Opcode 8
 Voice chat heartbeat???
 
@@ -83,3 +93,9 @@ TODO
 TODO
 ### CALL_CREATE
 TODO 
+### PRESENCE_UPDATE
+TODO
+### HOUSE_MEMBERS_CHUNK
+TODO
+### BATCH_HOUSE_MEMBER_UPDATE
+TODO
