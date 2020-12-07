@@ -13,10 +13,10 @@ NOTE: There are multiple urls for sending data too, most of the time its `wss://
 
 The json data looks like this
 ```json
-{"op":opcode, "data":data}
+{"op":0, "data":{"arg1":"val1","arg2":"val2"}}
 ```
 
-# Known opcodes with examples
+# Known opcodes
 
 ## Client -> Server
 
