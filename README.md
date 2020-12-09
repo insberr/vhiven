@@ -1,17 +1,17 @@
 > **vhiven** - Hiven bot/self bot/api module for V  
-> **Status** - Idea
-
+> **Status** - Working Progress
 # vhiven
 Hiven bot/self bot/api module for V
 
+Currently this module does not function and/or is very unstable
 
 ### Current Stage
-Still learning V so it might be a while before any code is released here.  
-Also waiting for Hiven to have an api documentation
+
+Trying to get a connection to the websocket
 
 
 ### Help
-Looking for help join my development Discord server or Hiven house => https://hiven.house/4kjf9j
+Get help and info on my development [Discord server](https://discord.gg/PSNKV6EB9A) or [Hiven house](https://hiven.house/4kjf9j)
 
 
 ## Maintainers

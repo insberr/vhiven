@@ -4,7 +4,7 @@ import x.json2
 fn makeopcode(opcode int, data map[string]json2.Any) string { // Creates the json to send to server
 	mut inst := map[string]json2.Any
 	inst['op'] = opcode
-	inst['data'] = data
+	inst['d'] = data
 	return inst.str()
 }
 

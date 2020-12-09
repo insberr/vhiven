@@ -18,7 +18,7 @@ fn onclose(mut c websocket.Client, code int, reason string) ? {
 	println(reason)
 }
 fn onmessage(mut c websocket.Client, msg &websocket.Message) ? {
-	messagetext := msg.payload // []byte, how to make string?
+	messagetext := string(msg.payload) // []byte, how to make string?
 	println("hey we are in onmessage")
 	println(messagetext)
 }

@@ -1,5 +1,5 @@
 module websocket
-
+import src.events
 import x.websocket
 import x.json2
 import src.opcodes
@@ -9,7 +9,6 @@ const (
 	hiven = "wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json"
 	test = "wss://echo.websocket.org"
 )
-
 
 pub fn login(mut client &websocket.Client, token string) ? {
 	packet := opcodes.login(token)

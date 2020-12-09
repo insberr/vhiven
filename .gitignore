@@ -1,2 +1,7 @@
 output/
 .env
+test_token.txt
+config.txt
+config.json
+exampledata.txt
+
