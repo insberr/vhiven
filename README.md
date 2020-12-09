@@ -3,8 +3,10 @@
 # vhiven
 Hiven bot/self bot/api module for V
 
+Currently this module does not function and/or is very unstable
 
 ### Current Stage
+
 Trying to get a connection to the websocket
 
 
