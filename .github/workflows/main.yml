@@ -30,11 +30,6 @@ jobs:
         run: echo Hello, world!
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          git clone https://github.com/vlang/v
-          cd v
-          make
-          ls
-          cd vhiven/vhiven
-          v/v.exe -o -c output/test.c vhiven.v
+      # - name: Run a multi-line script
+        # run: |
+          # git clone https://github.com/vlang/v
