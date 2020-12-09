@@ -27,7 +27,7 @@ jobs:
 
       # Get v
       - name: Set up V version latest
-        uses: nocturlab/setup-vlang-action@v1
+        uses: nocturlab/setup-vlang-action@v1.2.0
         with:
           v-version: latest
 
