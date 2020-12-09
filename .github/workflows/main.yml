@@ -35,4 +35,6 @@ jobs:
           git clone https://github.com/vlang/v
           cd v
           make
-          v.exe -o -c output/test.c vhiven.v
+          ls
+          cd vhiven/vhiven
+          v/v.exe -o -c output/test.c vhiven.v
