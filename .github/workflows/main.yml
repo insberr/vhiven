@@ -27,9 +27,11 @@ jobs:
 
       # Get v
       - name: Set up V version latest
-        uses: nocturlab/setup-vlang-action@v1.2.0
-        with:
-          v-version: latest
+        run: |
+          git clone https://github.com/vlang/v
+          cd v
+          make
+          sudo v symlink
 
       - name: Build test_websocket
         run: v build test_websocket.v
