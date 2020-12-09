@@ -31,7 +31,7 @@ jobs:
           git clone https://github.com/vlang/v
           cd v
           make
-          sudo v symlink
+          sudo ./v symlink
 
       - name: Build test_websocket
         run: v build test_websocket.v
