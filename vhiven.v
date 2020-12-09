@@ -3,7 +3,7 @@ import src.websocket as ws
 
 pub struct HivenClient {
 pub mut:
-	user string
+	user string // maybe add the websocket to the hiven client?
 }
 
 pub fn new_client() HivenClient {
