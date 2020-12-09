@@ -10,7 +10,6 @@ const (
 	test = "wss://echo.websocket.org"
 )
 
-
 pub fn login(mut client &websocket.Client, token string) ? {
 	packet := opcodes.login(token)
 	client.write_str(packet)? // should send it

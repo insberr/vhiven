@@ -17,3 +17,4 @@ pub fn (c Client) login(token) events string {
 	}
 	return "Logged in"
 }
+
