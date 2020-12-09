@@ -1,5 +1,5 @@
 module websocket
-
+import src.events
 import x.websocket
 import x.json2
 import src.opcodes

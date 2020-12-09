@@ -1,17 +1,18 @@
 module vhiven
-import src.websocket as ws
+import src.client as ws_client
+import x.websocket
 
 pub struct HivenClient {
 pub mut:
-	user string // maybe add the websocket to the hiven client?
-}
-
-pub fn new_client() HivenClient {
-	ws.new_websocket()
-	c := HivenClient{user: 'insbott'}
-	return c
+	user string 
+	ws &websocket.Client = ws.new_websocket()
+	bot bool = true
 }
 
 pub fn (c HivenClient) login(token string) {
-	println('Logged in: Token: $token')
+	if c.bot == true {
+		ws.login("Bot $token")
+	} else {
+		ws.login(token)
+	}
 }
