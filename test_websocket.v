@@ -7,7 +7,7 @@ fn main() {
 	packet := op.login("abc123")
 	println(packet)
 	mut wstest := ws.new_websocket(onopen,onclose,onmessage)
-	ws.login(wstest,"abc123")
+	
 	for {}
 	//ws.login(wstest,"token goes here")
 }
@@ -25,5 +25,5 @@ fn onmessage(mut c websocket.Client, msg &websocket.Message) ? {
 
 fn onopen(mut c websocket.Client) ? {
 	println("in onopen")
-	c.write_str("hello world")
+	ws.login(c,"abc123")
 }
