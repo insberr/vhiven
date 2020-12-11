@@ -29,7 +29,7 @@ struct ClosedReason {
 }
 
 pub fn (mut c Client) run() ? { // this function blocks until the client stops
-	c.ws.listen()
+	go c.ws.listen()
 	time.sleep(5) // allow for stuff to get done
 	// if c.bot == true {
 	//	ws.login(c.ws,"Bot $c.token")
@@ -63,6 +63,7 @@ pub fn new_client(token string) Client {
 		ws: socket
 	}
 	cl.ws.on_open_ref(openfn, &cl)
+	cl.ws.on_message_ref(messagefn, &cl)
 	cl.ws.on_close_ref(closefn, &cl)
 	cl.on("open", opn)
 	return cl
