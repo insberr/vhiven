@@ -1,5 +1,4 @@
 module main
-import src.websocket as ws
 import src.opcodes as op
 import x.websocket
 import src.client
@@ -18,6 +17,6 @@ fn main() {
 }
 
 
-fn on_ready(evtdata map[string]json2.Any) ? {
+fn on_ready(n voidptr, na voidptr, client &client.Client) {
 	println("On Ready")
 }
