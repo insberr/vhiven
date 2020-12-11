@@ -17,6 +17,6 @@ fn main() {
 }
 
 
-fn on_ready(n voidptr, na voidptr, client &client.Client) {
+fn on_ready(recvr voidptr, args voidptr, client &client.Client) {
 	println("On Ready")
 }

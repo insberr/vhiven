@@ -43,10 +43,12 @@ pub fn (mut c Client) on(etype string, evthandler eventbus.EventHandlerFn) {
 	get_subscriber().subscribe(etype, evthandler)
 }
  
-// client.on("ready") is called when we recive the first event
+
 
 fn (mut c Client) ready() {
-	println("On Ready")
+	println("ready to login")
+	// login
+
 }
 
 
