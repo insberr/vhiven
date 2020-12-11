@@ -4,20 +4,20 @@ import x.websocket
 
 pub struct HivenClient {
 pub mut:
-  user string 
-	ws &websocket.Client = ws.new_websocket()
+  	user string 
 	bot bool = true
+	internalclient ws_client.Client 
 }
 
 pub fn new_client() HivenClient {
-	ws.new_websocket()
-	c := HivenClient{user: 'insbott'}
-	return c
+	return HivenClient{}
+}
 
 pub fn (c HivenClient) login(token string) {
-	if c.bot == true {
-		ws.login("Bot $token")
-	} else {
+	if c.bot == false {
 		ws.login(token)
+	} else {
+		ws.login('Bot $token')
 	}
+	// Start websocket and stuff
 }

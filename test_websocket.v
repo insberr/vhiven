@@ -2,28 +2,22 @@ module main
 import src.websocket as ws
 import src.opcodes as op
 import x.websocket
+import src.client
 import os
+import x.json2
+
+struct Testpassin {
+	test string
+}
+
 fn main() {
-	packet := op.login("abc123")
-	println(packet)
-	mut wstest := ws.new_websocket(onopen,onclose,onmessage)
-	
-	for {}
+	mut cl := client.new_client("abc")
+	cl.on("ready",on_ready)
+	cl.run()
 	//ws.login(wstest,"token goes here")
 }
 
 
-fn onclose(mut c websocket.Client, code int, reason string) ? {
-	println("hey we are in onclose")
-	println(reason)
-}
-fn onmessage(mut c websocket.Client, msg &websocket.Message) ? {
-	messagetext := string(msg.payload) // []byte, how to make string?
-	println("hey we are in onmessage")
-	println(messagetext)
-}
-
-fn onopen(mut c websocket.Client) ? {
-	println("in onopen")
-	ws.login(c,"abc123")
+fn on_ready(evtdata map[string]json2.Any) ? {
+	println("On Ready")
 }
