@@ -1,4 +1,5 @@
 module client
+
 import eventbus
 import time
 import x.websocket
@@ -7,11 +8,6 @@ import x.json2
 const (
 	bus = eventbus.new()
 )
-
-
-fn get_subscriber() eventbus.Subscriber {
-	return *bus.subscriber
-}
 
 pub struct Client {
 pub mut:
@@ -28,11 +24,39 @@ struct ClosedReason {
 		reason string
 }
 
+pub fn new_client() Client {
+	println('New client created')
+	mut socket := websocket.new_client("wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json") or { panic("Unable to connect") }
+	mut cl := Client{
+		ws: socket
+	}
+	return cl
+}
+
+pub fn (mut cl Client) login(token string) {
+
+	cl.ws.connect()
+    go cl.ws.listen()
+	time.sleep(5)
+	
+
+	cl.ws.on_open_ref(openfn, &cl)
+	cl.ws.on_message_ref(messagefn, &cl)
+	cl.ws.on_close_ref(closefn, &cl)
+
+}
+
+
+
+fn get_subscriber() eventbus.Subscriber {
+	return *bus.subscriber
+}
+
 pub fn (mut c Client) run() ? { // this function blocks until the client stops
-	go c.ws.listen()
-	time.sleep(5) // allow for stuff to get done
+	
+	 // allow for stuff to get done
 	// if c.bot == true {
-	//	ws.login(c.ws,"Bot $c.token")
+	//    ws.login(c.ws,"Bot $c.token")
 	//} else {
 	//	ws.login(c.ws, c.token)
 	//}
@@ -40,7 +64,8 @@ pub fn (mut c Client) run() ? { // this function blocks until the client stops
 }
 
 pub fn (mut c Client) on(etype string, evthandler eventbus.EventHandlerFn) {
-	get_subscriber().subscribe(etype, evthandler)
+	mut sub := bus.subscriber
+	sub.subscribe(etype, evthandler)
 }
  
 
@@ -53,29 +78,22 @@ fn (mut c Client) ready() {
 
 
 fn opn(n voidptr, na voidptr, mut client &Client) {
+	println('opn ran')
 	client.ready()
 }
 
-pub fn new_client(token string) Client {
-	socket := websocket.new_client("wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json") or { panic("Unable to connect") }
-	mut cl := Client{
-		token: token
-		ws: socket
-	}
-	cl.ws.on_open_ref(openfn, &cl)
-	cl.ws.on_message_ref(messagefn, &cl)
-	cl.ws.on_close_ref(closefn, &cl)
-	cl.on("open", opn)
-	return cl
-}
+
 
 fn openfn(mut c websocket.Client, cl &Client) ? {
-	bus.publish("open", cl, none)
+	println('websocket opened')
+	bus.publish("open", none, cl)
 }
+
 fn closefn(mut c websocket.Client, code int, reason string, cl &Client) ? {
-	bus.publish("close",cl, ClosedReason{code: code, reason: reason})
+	bus.publish("close", ClosedReason{code: code, reason: reason}, cl)
 }
+
 fn messagefn(mut c websocket.Client, msg &websocket.Message, cl &Client) ? {
 	msgdata := string(msg.payload)
-	bus.publish("message",cl, msgdata)
+	bus.publish("message", msgdata, cl)
 }

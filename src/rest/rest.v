@@ -1,1 +1,5 @@
-// This file is for the rest api interaction
+module rest
+
+pub fn test() {
+	println('rest tested (not really)')
+}

@@ -1,5 +1,6 @@
-module events
-import x.json2
+module eventbus
+
+import eventbus
 
 pub struct USER {
 	username string
