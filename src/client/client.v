@@ -84,9 +84,8 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, cl &Client) ? {
 	if msg.payload.len > 0 {
 		mut pck := structs.socket_msg_parse(msg)?
 		match pck.op {
-			0 { }
 			1 { activate_heartbeat(pck.d["hbt_int"].int(), cl) }
-			else {}
+			else { println("INVALID OPCODE: $pck.op DATA: $pck.d")}
 		}
 		//print(pck.d)
 		//bus.publish('message', cl, message)
@@ -94,7 +93,7 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, cl &Client) ? {
 	
 }
 
-fn activate_heartbeat(timeb int, client &Client) {
+fn activate_heartbeat(timeb int, mut client &Client) {
 	println("HEARTBEAT SET TO: "+ timeb.str())
 	client.heartbeat = timeb
 }
