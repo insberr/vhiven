@@ -6,7 +6,7 @@ import x.websocket
 pub struct WSMessage {
 pub mut:
 	op int
-	d json2.Any
+	d map[string]json2.Any
 }
 
 fn makeopcode(opcode int, data map[string]json2.Any) string { // Creates the json to send to server
@@ -31,17 +31,10 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
 	*/
 	mut new_msg := &WSMessage{}
 
-	mut obj := json2.raw_decode(msg.payload.bytestr())?
-	mut msg_obj := obj.as_map()
-	
-    for k, v in msg_obj {
-        match k {
-            'op' { new_msg.op = v.int() }
-            'd' { new_msg.d = v }
-            else {}
-        }
-    }
-	
+	mut obj := json2.raw_decode(string(msg.payload))?
+	mut obj_map := obj.as_map()
+	new_msg.op = obj_map["op"].int()
+	new_msg.d = obj_map["d"].as_map()
 	return new_msg
 }
 
