@@ -9,17 +9,14 @@ fn main() {
 
 	client.bot = false // tells the module that this is being used for a self bot
 
-	client.on('ready', fn () {
+	client.on('ready', fn (client &vhiven.Client) {
 		println('ready!')
 	})
 
-	client.on('someevent', fn (eventargs) {
+	client.on('message', fn (client &vhiven.Client, msg &vhiven.Message) {
 		// Do something
 		println('hi')
 	}) 
 
 	client.login('TOKEN')
 }
-
-
-
