@@ -1,9 +1,14 @@
 module main
 
 import src.client
-
+import os
+import zztkm.vdotenv
 
 fn main() {
+	vdotenv.load()
+
+    bot_token := os.getenv('TOKEN')
+    
 	mut cl := client.new_client()
 
 	cl.on('open', fn (recvr voidptr, args voidptr, cl &client.Client) {
@@ -20,7 +25,7 @@ fn main() {
 		println(msg)
 	})
 
-	cl.login('token')
+	cl.login(bot_token)
 	for {}
 	// cl.run()
 	//ws.login(wstest,"token goes here")
