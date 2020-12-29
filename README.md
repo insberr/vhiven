@@ -1,5 +1,5 @@
 > **vhiven** - Hiven bot/self bot/api module for V  
-> **Status** - Working Progress
+> **Status** - Progress haulted until Hiven has api/websocket docs  
 
 # vhiven
 Hiven bot/self bot/api module for V

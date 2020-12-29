@@ -16,6 +16,7 @@ fn main() {
 	})
 
 	cl.on('close', fn (recvr voidptr, reason &client.ClosedReason, cl &client.Client) {
+		println('closed')
 		println(reason.reason)
 	})
 	cl.on("ready", on_ready)
@@ -26,7 +27,6 @@ fn main() {
 	})
 
 	cl.login(bot_token)
-	for {}
 	// cl.run()
 	//ws.login(wstest,"token goes here")
 }
