@@ -7,9 +7,7 @@ import x.json2
 
 import src.structs
 
-const (
-	bus = eventbus.new()
-)
+const bus = eventbus.new()
 
 pub struct Client {
 pub mut:
@@ -25,6 +23,20 @@ pub:
 	code   int
 	reason string
 }
+
+/*
+Websocket Info
+
+After connection {"op": 2, "d": {"token": "128CharacterToken"}}
+
+op codes
+1 heartbeat
+2 is login
+3 pingpong
+6 Request Presence Subscriptions
+7 member
+
+*/
 
 pub fn new_client() &Client {
 	println('New client created')
@@ -42,8 +54,9 @@ pub fn new_client() &Client {
 
 pub fn (mut cl Client) login(token string) {
 	println('Login ran')
-	cl.ws.connect() or { println(err) }
 	cl.token = token
+	cl.ws.connect() or { println(err) }
+	
 	go cl.ws.listen()
 	time.sleep(5)
 
@@ -72,7 +85,7 @@ pub fn (mut c Client) on(etype string, evthandler eventbus.EventHandlerFn) {
 
 /* === Websocket events === */
 fn openfn(mut c websocket.Client, cl &Client) ? {
-	
+
 	println('websocket opened')
 	bus.publish('open', cl, none)
 }
@@ -87,6 +100,7 @@ fn closefn(mut c websocket.Client, code int, reason string, cl &Client) ? {
 fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl &Client) ? {
 	if msg.payload.len > 0 {
 		mut pck := structs.socket_msg_parse(msg)?
+		println(pck)
 		match pck.op {
 			1 { activate_heartbeat(pck.d["hbt_int"].int(), mut c, mut cl) }
 			else { println("INVALID OPCODE: $pck.op DATA: $pck.d")}
@@ -99,6 +113,8 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl &Client) ? {
 
 fn activate_heartbeat(timeb int, mut c &websocket.Client, mut cl &Client) {
 	println("HEARTBEAT SET TO: "+ timeb.str())
-	// client.heartbeat = timeb
+	c.write_str('{"op":1}')
+
+	cl.heartbeat = timeb
 }
 

@@ -16,8 +16,8 @@ fn main() {
 	})
 
 	cl.on('close', fn (recvr voidptr, reason &client.ClosedReason, cl &client.Client) {
-		println('closed')
-		println(reason.reason)
+		println('cl.on close closed')
+		println(reason)
 	})
 	cl.on("ready", on_ready)
 	cl.on('error', on_error)

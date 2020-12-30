@@ -1,5 +1,5 @@
 > **vhiven** - Hiven bot/self bot/api module for V  
-> **Status** - Progress haulted until Hiven has api/websocket docs  
+> **Status** - Progress slowed  
 
 # vhiven
 Hiven bot/self bot/api module for V
@@ -10,6 +10,10 @@ Currently this module does not function. It is still in the very early developme
 _Could almost say its in v0.0.1_
 Got the connection to the websocket and the eventbus to work  
 Next is to login and keep a connection to the websocket, and parse the data sent to json
+
+### To DO
+- [] Keep a connection to the websocket
+- [] Add rest api functions
 
 
 ## Example
@@ -41,7 +45,7 @@ fn main() {
 ```
 
 ### Help
-Get help and info on my development [Discord server](https://discord.gg/PSNKV6EB9A) or [Hiven house](https://hiven.house/4kjf9j)
+Get help and info on my [Discord server](https://discord.gg/PSNKV6EB9A) or [Hiven house](https://hiven.house/4kjf9j)
 
 
 ## Maintainers
