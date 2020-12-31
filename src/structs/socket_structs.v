@@ -5,7 +5,9 @@ import x.websocket
 
 pub struct WSMessage {
 pub mut:
+	seq int
 	op int
+	e string
 	d map[string]json2.Any
 }
 
@@ -33,8 +35,12 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
 
 	mut obj := json2.raw_decode(string(msg.payload))?
 	mut obj_map := obj.as_map()
+
+	new_msg.seq = obj_map["seq"].int()
 	new_msg.op = obj_map["op"].int()
+	new_msg.e = obj_map["e"].str()
 	new_msg.d = obj_map["d"].as_map()
+	
 	return new_msg
 }
 
@@ -44,6 +50,29 @@ pub fn socket_msg_create(opcode int, data string) string {
 	new_msg['d'] = data
 
 	return new_msg.str()
+}
+
+pub fn message_create_parse(data map[string]json2.Any) &Message {
+	message := &Message{
+		timestamp: data["timestamp"].str(),
+		room_id: data["room_id"].str(),
+		mentions: [&Mention{}],
+		member: &Member{
+			user: &User{},
+			roles: [&Role{}]
+		},
+		id: data["id"].str(),
+		house_id: data["house_id"].str(),
+		exploding_age: 0,
+		exploding: data["exploding"].bool(),
+		device_id: data["device_id"].str(),
+		content: data["content"].str(),
+		bucket: data["bucket"].int(),
+		author_id: data["author_id"].str(),
+		author: &Author{}
+	}
+
+	return message
 }
 
 pub fn login(token string) string {

@@ -1,3 +1,8 @@
+**Please refer to this repo's wiki, [here](https://github.com/insberr/vhiven/wiki/Hiven-Rest-Api-Docs) for the most up to date docs**
+
+
+
+
 # Rest API Docs
 
 Taken from [here](https://github.com/FrostbyteSpace/easyhiven.js/blob/main/TODO.md) and [here](https://github.com/hivenapp/hiven.js/tree/master/lib)

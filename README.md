@@ -1,17 +1,17 @@
 > **vhiven** - Hiven bot/self bot/api module for V  
-> **Status** - Progress slowed  
+> **Status** - Slow but somehow getting there  
 
 # vhiven
 Hiven bot/self bot/api module for V
 
-Currently this module does not function. It is still in the very early development stages  
+This module does not function yet. It is still in the very early development stages  
 
 ### Current Stage
-_Could almost say its in v0.0.1_
-Got the connection to the websocket and the eventbus to work  
-Next is to login and keep a connection to the websocket, and parse the data sent to json
+Successfully got it to login, but I need it to keep the connection  
+Somewhat parses messages from the MESSAGE_CREATE event  
 
-### To DO
+
+### To Do
 - [] Keep a connection to the websocket
 - [] Add rest api functions
 
