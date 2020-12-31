@@ -2,12 +2,14 @@ module client
 
 import time
 import x.websocket
+import x.json2
 import src.structs
 import eventbus
 
 const bus = eventbus.new()
 const socket_url = 'wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json'
 
+// Client websocket client struct
 pub struct Client {
 pub mut:
 	ws         &websocket.Client
@@ -26,6 +28,12 @@ pub:
 	reason string
 }
 
+type DataAny = map[string]json2.Any | structs.Message | structs.Init
+pub struct EventData {
+pub mut:
+	event string
+	data DataAny
+}
 /*
 Websocket Info
 
@@ -39,6 +47,7 @@ op codes
 7 member
 */
 
+// get_subscriber get the eventbus
 pub fn get_subscriber() eventbus.Subscriber {
 	return *bus.subscriber
 }
@@ -118,14 +127,16 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 			0 {
 				match pck.e {
 					'INIT_STATE' {
-						bus.publish('ready', cl, none)
+						bus.publish('all_events', cl, &EventData{event: 'ready', data: pck.d})
 					}
 					'HOUSE_JOIN' { }
 					'HOUSE_MEMBER_ENTER' { }
 					'HOUSE_MEMBER_UPDATE' { }
 					'MESSAGE_CREATE' {
-						structs.message_create_parse(pck.d)
-						bus.publish('message', cl, structs.message_create_parse(pck.d))
+						bus.publish('all_events', cl, EventData{
+							event: 'message',
+							data: structs.message_create_parse(pck.d)
+						})
 					}
 					'TYPING_START' {
 						println('user started typing')

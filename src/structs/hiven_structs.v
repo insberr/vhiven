@@ -2,9 +2,9 @@ module structs
 
 pub struct User {
 pub:
-	username string
+	username   string
 	user_flags string
-	name string
+	name       string
 	id string
 	icon string
 	header string
@@ -54,21 +54,74 @@ pub:
 	id string
 }
 
+pub struct PrivateRoom {
+pub mut:
+	room_id string
+}
+
+pub struct Presence {
+pub mut:
+	username   string
+	user_flags string
+	name       string
+	id         string
+	bot        string
+	presence   string
+}
+
+pub struct HouseMembership {
+pub mut:
+	user_id   string
+	roles     none
+	last_permission_update none
+	joined_at string
+	house_id  string
+}
+
+pub struct Setting {
+pub mut:
+	setting string
+}
+
+pub struct Relationship {
+pub mut:
+	relation string
+}
+
+pub struct ReadState {
+pub mut:
+	message_id string
+	mention_count int
+}
+
+// Events
+pub struct Init {
+pub mut:
+	user           &User
+	settings       map[string]&Setting
+	relationships  map[string]&Relationship
+	read_state     map[string]&ReadState
+	private_rooms  []&PrivateRoom
+	presences      map[string]&Presence
+	house_memberships map[string]&HouseMembership
+	house_ids      []string
+}
+
 pub struct Message {
 pub:
 	timestamp string
-	room_id string
-	mentions []&Mention
-	member &Member
-	id string
-	house_id string
+	room_id   string
+	mentions  []&Mention
+	member    &Member
+	id        string
+	house_id  string
 	exploding_age int
 	exploding bool
 	device_id string
-	content string
-	bucket int
+	content   string
+	bucket    int
 	author_id string
-	author &Author
+	author    &Author
 }
 
 

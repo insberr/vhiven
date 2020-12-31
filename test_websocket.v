@@ -4,6 +4,7 @@ import src.client
 import src.structs as s
 import os
 import zztkm.vdotenv
+import x.json2
 
 fn main() {
 	vdotenv.load()
@@ -13,11 +14,12 @@ fn main() {
 	mut cl := client.new_client()
 	cl.bot = false
 
-	cl.on('ready', on_ready)
+	cl.on('ready', fn (recvr voidptr, args voidptr, client &client.Client) {
+		println('ready')
+	})
 
 	cl.on('open', fn (recvr voidptr, args voidptr, cl &client.Client) {
 		println('websocket open')
-		println(recvr)
 	})
 
 	cl.on('close', fn (recvr voidptr, reason &client.ClosedReason, cl &client.Client) {
@@ -38,7 +40,4 @@ fn main() {
 
 fn on_error(recvr voidptr, err voidptr, client &client.Client) {
 	println(err)
-}
-fn on_ready(recvr voidptr, args voidptr, client &client.Client) {
-	println("On Ready")
 }
