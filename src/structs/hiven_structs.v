@@ -72,8 +72,8 @@ pub mut:
 pub struct HouseMembership {
 pub mut:
 	user_id   string
-	roles     none
-	last_permission_update none
+	roles     string
+	last_permission_update string
 	joined_at string
 	house_id  string
 }

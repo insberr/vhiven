@@ -15,15 +15,15 @@ fn main() {
 	cl.bot = false
 
 	cl.on('ready', fn (recvr voidptr, args voidptr, client &client.Client) {
-		println('ready')
+		println('test: ready')
 	})
 
 	cl.on('open', fn (recvr voidptr, args voidptr, cl &client.Client) {
-		println('websocket open')
+		println('test: websocket open')
 	})
 
 	cl.on('close', fn (recvr voidptr, reason &client.ClosedReason, cl &client.Client) {
-		println('websocket closed. Reason: $reason.reason, code: $reason.code')
+		println('test: websocket closed. Reason: $reason.reason, code: $reason.code')
 	})
 	
 	cl.on('error', on_error)
