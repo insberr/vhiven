@@ -4,4 +4,6 @@ test_token.txt
 config.txt
 config.json
 exampledata.txt
-
+src/structs/json.json
+src/structs/init_state.json
+test.v

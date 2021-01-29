@@ -1,29 +1,43 @@
 module main
-import src.websocket as ws
-import src.opcodes as op
-import x.websocket
+
+import src.client
+import src.structs as s
 import os
+import zztkm.vdotenv
+import x.json2
+
 fn main() {
-	packet := op.login("abc123")
-	println(packet)
-	mut wstest := ws.new_websocket(onopen,onclose,onmessage)
-	ws.login(wstest,"abc123")
-	for {}
+	vdotenv.load()
+
+    bot_token := os.getenv('TOKEN')
+    
+	mut cl := client.new_client()
+	cl.bot = false
+
+	cl.on('ready', fn (recvr voidptr, args voidptr, client &client.Client) {
+		println('ready')
+	})
+
+	cl.on('open', fn (recvr voidptr, args voidptr, cl &client.Client) {
+		println('websocket open')
+	})
+
+	cl.on('close', fn (recvr voidptr, reason &client.ClosedReason, cl &client.Client) {
+		println('websocket closed. Reason: $reason.reason, code: $reason.code')
+	})
+	
+	cl.on('error', on_error)
+
+	cl.on('message', fn (recvr voidptr, msg &s.Message, cl &client.Client) {
+		println(msg.content)
+	})
+
+	cl.login(bot_token)
+	// cl.run()
 	//ws.login(wstest,"token goes here")
 }
 
 
-fn onclose(mut c websocket.Client, code int, reason string) ? {
-	println("hey we are in onclose")
-	println(reason)
-}
-fn onmessage(mut c websocket.Client, msg &websocket.Message) ? {
-	messagetext := string(msg.payload) // []byte, how to make string?
-	println("hey we are in onmessage")
-	println(messagetext)
-}
-
-fn onopen(mut c websocket.Client) ? {
-	println("in onopen")
-	c.write_str("hello world")
+fn on_error(recvr voidptr, err voidptr, client &client.Client) {
+	println(err)
 }
