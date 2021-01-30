@@ -13,6 +13,8 @@ const socket_url = 'wss://swarm-dev.hiven.io/socket?encoding=json'
 
 // Client websocket client struct
 pub struct Client {
+pub:
+	eb &eventbus.EventBus
 pub mut:
 	ws             &websocket.Client
 	bot            bool = true
@@ -21,7 +23,6 @@ pub mut:
 	last_heartbeat u64
 	closed         bool
 	is_pinging     bool
-	eb             &eventbus.EventBus
 mut:
 	token string
 }
@@ -55,7 +56,13 @@ fn get_subscriber() eventbus.Subscriber {
 	return *bus.subscriber
 }
 
+/*
 pub fn (mut cl Client) on(etype string, evthandler eventbus.EventHandlerFn) {
+	get_subscriber().subscribe(etype, evthandler)
+}
+*/
+
+pub fn on(etype string, evthandler eventbus.EventHandlerFn) {
 	get_subscriber().subscribe(etype, evthandler)
 }
 
@@ -79,10 +86,7 @@ fn login(mut cl Client, bot bool, token string) {
 	cl.token = token
 	cl.bot = bot
 
-	cl.ws.connect() or {
-		bus.publish('socket_error', cl, 'Failed to connect: $err')
-		panic('Failed to connect: $err')
-	}
+	cl.ws.connect() or { panic('Failed to connect: $err') }
 
 	mut auth_token := ''
 	if cl.bot == true {
@@ -92,7 +96,6 @@ fn login(mut cl Client, bot bool, token string) {
 	}
 
 	cl.ws.write_str('{"op": 2, "d": { "token": "$auth_token" }}') or {
-		bus.publish('socket_error', cl, 'Failed to authenticate: $err')
 		panic('Failed to authenticate: $err')
 	}
 
@@ -108,7 +111,7 @@ fn login(mut cl Client, bot bool, token string) {
 		now := time.now().unix_time_milli()
 		if now - cl.last_heartbeat > cl.heartbeat {
 			cl.ws.write_str('{ "op": 3 }') or { panic('failed to send op: $err') }
-			bus.publish('socket_op3', cl, 'opcode 3 (heartbeat) was sent.')
+			bus.publish('socket', cl, 'opcode 3 (heartbeat) was sent.')
 			cl.last_heartbeat = now
 		}
 	}
@@ -117,12 +120,12 @@ fn login(mut cl Client, bot bool, token string) {
 //=== Websocket events ===
 
 fn openfn(mut ws websocket.Client, mut cl Client) ? {
-	bus.publish('socket_open', cl, none)
+	bus.publish('socketopen', cl, none)
 }
 
 fn closefn(mut c websocket.Client, code int, reason string, mut cl Client) ? {
 	cl.closed = true
-	bus.publish('socket_close', cl, ClosedReason{
+	bus.publish('socketclose', cl, ClosedReason{
 		code: code
 		reason: reason
 	})
@@ -135,7 +138,7 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 		match pck.op {
 			0 {
 				match pck.e {
-					'INIT_STATE' { bus.publish('init', cl, structs.init_state_parse(pck.d)) }
+					'INIT_STATE' { bus.publish('ready', cl, structs.ready_state_parse(pck.d)) }
 					'PRESENCE_UPDATE' {}
 					'RELATIONSHIP_UPDATE' {}
 					'MESSAGE_CREATE' { bus.publish('message', cl, structs.message_create_parse(pck.d)) }
@@ -190,5 +193,5 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 }
 
 fn errorfn(mut ws websocket.Client, err string, mut cl Client) ? {
-	bus.publish('socket_error', cl, Error{ e: err })
+	bus.publish('error', cl, Error{ e: err })
 }

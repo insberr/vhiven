@@ -22,12 +22,12 @@ pub fn (mut hcl HivenClient) login(token string) {
 	mut cl := new_ws_client()
 	hcl.cl = cl
 
-	cl.on('init', on_init_state)
+	on('ready', on_ready_state)
 
 	login(mut cl, hcl.bot, token)
 }
 
-fn on_init_state(recvr voidptr, data &s.InitState, cl &Client) ? {
+fn on_ready_state(recvr voidptr, data &s.ReadyState, cl &Client) ? {
 	// println(data)
 	// hcl.init_data = data.str()
 	cl.eb.publish('ready', cl, none)

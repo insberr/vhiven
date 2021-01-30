@@ -95,7 +95,7 @@ pub mut:
 }
 
 // Events
-pub struct InitState {
+pub struct ReadyState {
 pub mut:
 	user              &User
 	settings          &Setting

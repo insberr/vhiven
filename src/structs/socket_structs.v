@@ -45,8 +45,8 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
 	return new_msg
 }
 
-pub fn init_state_parse(data map[string]json2.Any) &InitState {
-	init_state := &InitState{
+pub fn ready_state_parse(data map[string]json2.Any) &ReadyState {
+	ready_state := &ReadyState{
 		user: &User{}
 		settings: &Setting{}
 		relationships: &Relationship{}
@@ -57,7 +57,7 @@ pub fn init_state_parse(data map[string]json2.Any) &InitState {
 		house_ids: ['hello']
 	}
 
-	return init_state
+	return ready_state
 }
 
 pub fn socket_msg_create(opcode int, data string) string {
