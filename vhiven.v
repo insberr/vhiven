@@ -25,7 +25,7 @@ pub fn (mut hcl HivenClient) login(token string) {
 		if eventdata.event == 'ready' {
 			hcl.init_data = eventdata.data.str()
 		}
-		client.get_subscriber().publish(eventdata.event string, hcl HivenClient, eventdata.data client.DataAny)
+		client.get_subscriber().publish(eventdata.event, hcl, eventdata.data)
 	})
 	cl.login(token)
 }
