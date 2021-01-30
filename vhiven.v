@@ -13,13 +13,8 @@ pub mut:
 }
 
 // new_client create a new HivenClient
-pub fn new_client() &HivenClient {
-	mut hcl := &HivenClient{}
-	return &hcl
-}
-
-fn get_hcl() &HivenClient {
-	return &HivenClient{}
+pub fn new_client() HivenClient {
+	return HivenClient{}
 }
 
 // login to the client
@@ -34,17 +29,12 @@ pub fn (mut hcl HivenClient) login(token string) {
 }
 
 fn on_init(recvr voidptr, data &s.Init, cl &Client) ? {
-	mut hcl := get_hcl()
 	println(data)
 	// hcl.init_data = data.str()
-	hcl.cl.bus.publish('ready', cl, none)
+	bus.publish('ready', cl, none)
 }
 
-fn get_subscriber(mut hcl HivenClient) eventbus.Subscriber {
-	mut bus := hcl.cl.bus
-	return *bus.subscriber
-}
 // on for events
 pub fn (mut hcl HivenClient) on(etype string, evthandler eventbus.EventHandlerFn) {
-	get_subscriber(mut hcl).subscribe(etype, evthandler)
+	get_subscriber().subscribe(etype, evthandler)
 }
