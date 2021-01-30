@@ -20,7 +20,7 @@ pub struct House {
 pub mut:
 	name string
 	id string
-	rooms []Room
+	rooms []&Room
 }
 
 pub struct Mention {
@@ -31,8 +31,8 @@ pub:
 pub struct Member {
 pub:
 	user_id string
-	user User
-	roles []Role
+	user &User
+	roles []&Role
 	presence string
 	last_permission_update string
 	joined_at string
@@ -97,13 +97,13 @@ pub mut:
 // Events
 pub struct InitState {
 pub mut:
-	user           User
-	settings       Setting
-	relationships  Relationship
-	read_state     ReadState
-	private_rooms  []PrivateRoom
-	presences      Presence
-	house_memberships []HouseMembership
+	user           &User
+	settings       &Setting
+	relationships  &Relationship
+	read_state     &ReadState
+	private_rooms  []&PrivateRoom
+	presences      &Presence
+	house_memberships []&HouseMembership
 	house_ids      []string
 }
 
@@ -111,8 +111,8 @@ pub struct Message {
 pub:
 	timestamp string
 	room_id   string
-	mentions  []Mention
-	member    Member
+	mentions  []&Mention
+	member    &Member
 	id        string
 	house_id  string
 	exploding_age int
@@ -121,5 +121,5 @@ pub:
 	content   string
 	bucket    int
 	author_id string
-	author    Author
+	author    &Author
 }
