@@ -63,7 +63,7 @@ fn new_ws_client() Client {
 	mut socket := websocket.new_client(socket_url) or { panic('Unable to connect') }
 	mut cl := Client{
 		ws: socket
-		bus: bus
+		eb: bus
 	}
 
 	cl.ws.on_open_ref(openfn, &cl)
