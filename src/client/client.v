@@ -54,14 +54,18 @@ pub fn get_subscriber() eventbus.Subscriber {
 	return *bus.subscriber
 }
 
+pub fn (mut cl Client) get_subscriber() eventbus.Subscriber {
+	return *bus.subscriber
+}
+
 pub fn (mut cl Client) on(etype string, evthandler eventbus.EventHandlerFn) {
 	get_subscriber().subscribe(etype, evthandler)
 }
 
 
-pub fn new_client() &Client {
+pub fn new_client() Client {
 	mut socket := websocket.new_client(socket_url) or { panic('Unable to connect') }
-	mut cl := &Client{
+	mut cl := Client{
 		ws: socket
 	}
 
