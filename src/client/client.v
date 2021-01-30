@@ -24,11 +24,18 @@ mut:
 	token string
 }
 
-struct ClosedReason {
+
+pub struct ClosedReason {
 pub:
 	code   int
 	reason string
 }
+
+pub struct Error {
+pub:
+	e string
+}
+
 
 pub type DataAny = map[string]json2.Any | structs.Message | structs.Init
 pub struct EventData {
@@ -135,7 +142,7 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 		match pck.op {
 			0 {
 				match pck.e {
-					'INIT_STATE' { bus.publish('init', cl, pck.d) }
+					'INIT_STATE' { bus.publish('init', cl, structs.init_state_parse(pck.d)) }
 					'PRESENCE_UPDATE' { }
 					'RELATIONSHIP_UPDATE' { }
 					'MESSAGE_CREATE' { bus.publish('message', cl, structs.message_create_parse(pck.d)) }
@@ -174,5 +181,5 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 }
 
 fn errorfn(mut ws websocket.Client, err string, mut cl Client) ? {
-	bus.publish('socket_error', cl, err)
+	bus.publish('socket_error', cl, Error{e: err})
 }

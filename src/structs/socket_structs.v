@@ -44,6 +44,21 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
 	return new_msg
 }
 
+pub fn init_state_parse(data map[string]json2.Any) &Init {
+	init := &Init{
+		user: &User{},
+		settings: &Setting{},
+		relationships: &Relationship{},
+		read_state: &ReadState{},
+		private_rooms: [&PrivateRoom{}],
+		presences: &Presence{},
+		house_memberships: &HouseMembership{},
+		house_ids: ['hello']
+	}
+
+	return init
+}
+
 pub fn socket_msg_create(opcode int, data string) string {
 	mut new_msg := map[string]json2.Any
 	new_msg['op'] = opcode
@@ -75,9 +90,10 @@ pub fn message_create_parse(data map[string]json2.Any) &Message {
 	return message
 }
 
+// calling opcodes.login(token) will create a login opcode
 pub fn login(token string) string {
 	mut data := map[string]json2.Any
 	data["token"] = token
 	return makeopcode(2,data)
-} // calling opcodes.login(token) will create a login opcode
+}
 
