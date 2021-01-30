@@ -9,6 +9,7 @@ pub struct HivenClient {
 pub mut:
 	bot bool = true
 	init_data string
+	cl client.Client
 }
 
 // new_client create a new HivenClient
@@ -17,10 +18,16 @@ pub fn new_client() HivenClient {
 	return hcl
 }
 
+fn get_hcl() &HivenClient {
+	return &HivenClient
+}
+
 // login to the client
 pub fn (mut hcl HivenClient) login(token string) {
 	mut cl := client.new_client()
-	cl.on('all_events', fn (recvr voidptr, eventdata client.EventData, cl client.Client) {
+	hcl.cl = cl
+	hcl.cl.on('all_events', fn (recvr voidptr, eventdata, cl) {
+		mut hcl := get_hcl()
 		// change ready to init
 		if eventdata.event == 'ready' {
 			hcl.init_data = eventdata.data.str()
@@ -32,5 +39,5 @@ pub fn (mut hcl HivenClient) login(token string) {
 
 // on for events
 pub fn (mut hcl HivenClient) on(etype string, evthandler eventbus.EventHandlerFn) {
-	cl.get_subscriber().subscribe(etype, evthandler)
+	hcl.cl.get_subscriber().subscribe(etype, evthandler)
 }
