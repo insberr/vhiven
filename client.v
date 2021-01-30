@@ -68,7 +68,7 @@ pub fn (mut cl Client) on(etype string, evthandler eventbus.EventHandlerFn) {
 }
 
 
-fn new_client() Client {
+fn new_ws_client() Client {
 	mut socket := websocket.new_client(socket_url) or { panic('Unable to connect') }
 	mut cl := Client{
 		ws: socket

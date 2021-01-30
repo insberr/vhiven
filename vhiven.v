@@ -25,7 +25,7 @@ fn get_hcl() &HivenClient {
 // login to the client
 pub fn (mut hcl HivenClient) login(token string) {
 	println("hcl login")
-	mut cl := new_client()
+	mut cl := new_ws_client()
 	hcl.cl = cl
 
 	cl.on('init', on_init)
