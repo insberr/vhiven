@@ -18,6 +18,7 @@ pub mut:
 	heartbeat  u64 = 30000
 	last_heartbeat u64
 	closed bool
+	is_pinging bool
 mut:
 	token string
 }
@@ -28,12 +29,13 @@ pub:
 	reason string
 }
 
-type DataAny = map[string]json2.Any | structs.Message | structs.Init
+pub type DataAny = map[string]json2.Any | structs.Message | structs.Init
 pub struct EventData {
 pub mut:
 	event string
 	data DataAny
 }
+
 /*
 Websocket Info
 
@@ -75,24 +77,40 @@ pub fn (mut cl Client) login(token string) {
 	cl.token = token
 	
 	cl.ws.connect() or { println(err) }
-	
-	cl.ws.write_str('{"op": 2, "d": { "token": "Bot $cl.token" }}')
+	cl.ws.write_str('{"op": 2, "d": { "token": "Bot $cl.token" }}') or { panic('failed to authenticate: $err') }
 	go cl.ws.listen()
 	time.sleep(30)
-}
 
-fn run_heartbeat(mut ws websocket.Client, mut cl Client) {
 	for {
+		if cl.closed {
+			return
+		}
+		time.sleep_ms(500)
 		now := time.now().unix_time_milli()
 		if now - cl.last_heartbeat > cl.heartbeat {
-			ws.write_str('{"op":3}')
+			cl.ws.write_str('{ "op": 3 }') or { panic(err) }
 			println('sent op 3')
 			cl.last_heartbeat = now
 		}
 	}
 }
 
+fn run_heartbeat(mut ws websocket.Client, mut cl Client) {
+	for {
+		if cl.closed {
+			return
+		}
+		time.sleep_ms(50)
+		now := time.now().unix_time_milli()
+		if now - cl.last_heartbeat > cl.heartbeat {
+			ws.write_str('{ "op": 3 }') or { panic(err) }
+			println('sent op 3')
+			cl.last_heartbeat = now
+		}
+	}
+}
 
+/*
 pub fn (mut c Client) run() ? { // this function blocks until the client stops
 	// allow for stuff to get done
 	// if c.bot == true {
@@ -103,15 +121,16 @@ pub fn (mut c Client) run() ? { // this function blocks until the client stops
 	for {
 	}
 }
-
+*/
 //=== Websocket events ===
 
-fn openfn(mut ws websocket.Client, cl &Client) ? {
+fn openfn(mut ws websocket.Client, mut cl &Client) ? {
 	// println('websocket opened')
 	bus.publish('open', cl, none)
 }
 
 fn closefn(mut c websocket.Client, code int, reason string, mut cl &Client) ? {
+	println('closed')
 	cl.closed = true
 	bus.publish('close', cl, ClosedReason{
 		code: code
@@ -150,7 +169,7 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 			1 {
 				// println('op 1 got hbt')
 				cl.heartbeat = pck.d["hbt_int"].str().u64()
-				go run_heartbeat(mut c, mut cl)
+				// go run_heartbeat(mut c, mut cl)
 				// activate_heartbeat(pck.d['hbt_int'].int(), mut c, mut cl)
 			}
 			2 { println('got 2') }
