@@ -22,7 +22,7 @@ pub fn (mut hcl HivenClient) login(token string) {
 	mut cl := new_ws_client()
 	hcl.cl = cl
 
-	on('ready', on_ready_state)
+	cl.on('ready', on_ready_state)
 
 	login(mut cl, hcl.bot, token)
 }
@@ -30,7 +30,7 @@ pub fn (mut hcl HivenClient) login(token string) {
 fn on_ready_state(recvr voidptr, data &s.ReadyState, cl &Client) ? {
 	// println(data)
 	// hcl.init_data = data.str()
-	cl.eb.publish('ready', cl, none)
+	cl.eb.publish('onready', cl, none)
 }
 
 /*

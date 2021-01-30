@@ -56,13 +56,8 @@ fn get_subscriber() eventbus.Subscriber {
 	return *bus.subscriber
 }
 
-/*
-pub fn (mut cl Client) on(etype string, evthandler eventbus.EventHandlerFn) {
-	get_subscriber().subscribe(etype, evthandler)
-}
-*/
 
-pub fn on(etype string, evthandler eventbus.EventHandlerFn) {
+pub fn (mut cl Client) on(etype string, evthandler eventbus.EventHandlerFn) {
 	get_subscriber().subscribe(etype, evthandler)
 }
 
