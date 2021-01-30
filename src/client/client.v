@@ -29,12 +29,13 @@ pub:
 	reason string
 }
 
-type DataAny = map[string]json2.Any | structs.Message | structs.Init
+pub type DataAny = map[string]json2.Any | structs.Message | structs.Init
 pub struct EventData {
 pub mut:
 	event string
 	data DataAny
 }
+
 /*
 Websocket Info
 

@@ -20,11 +20,12 @@ pub fn new_client() HivenClient {
 // login login to the client
 pub fn (mut hcl HivenClient) login(token string) {
 	mut cl := client.new_client(mut hcl)
-	cl.on('all_events', fn (recvr voidptr, eventdata map[string], cl &client.Client) {
-		if eventdata["event"] == 'ready' {
-			hcl = eventdat["struct"]
+	cl.on('all_events', fn (recvr voidptr, eventdata client.EventData, cl client.Client) {
+		// change ready to init
+		if eventdata.event == 'ready' {
+			hcl.init_data = eventdata.data.str()
 		}
-		client.get_subscriber().publish(eventdata["event"], hcl, eventdata["struct"])
+		client.get_subscriber().publish(eventdata.event string, hcl HivenClient, eventdata.data client.DataAny)
 	})
 	cl.login(token)
 }
