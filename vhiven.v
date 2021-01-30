@@ -4,7 +4,6 @@ module vhiven
 import src.client
 import src.structs as s
 import eventbus
-import x.json2
 
 // HivenClient the hiven client
 pub struct HivenClient {
@@ -26,18 +25,13 @@ fn get_hcl() &HivenClient {
 
 // login to the client
 pub fn (mut hcl HivenClient) login(token string) {
+	println("hcl login")
 	mut cl := client.new_client()
 	hcl.cl = cl
 
 	hcl.cl.on('init', on_init)
 
 	cl.login(hcl.bot, token)
-
-	for {
-		if cl.closed == true {
-			return
-		}
-	}
 }
 
 fn on_init(recvr voidptr, data &s.Init, cl &client.Client) ? {

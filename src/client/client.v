@@ -83,6 +83,7 @@ pub fn new_client() Client {
 }
 
 pub fn (mut cl Client) login(bot bool, token string) {
+	println('logging in')
 	cl.token = token
 	cl.bot = bot
 	
