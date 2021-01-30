@@ -19,7 +19,7 @@ pub fn new_client() HivenClient {
 }
 
 fn get_hcl() &HivenClient {
-	return &HivenClient
+	return &HivenClient{}
 }
 
 // login to the client
@@ -32,9 +32,9 @@ pub fn (mut hcl HivenClient) login(token string) {
 		if eventdata.event == 'ready' {
 			hcl.init_data = eventdata.data.str()
 		}
-		cl.get_subscriber().publish(eventdata.event, hcl, eventdata.data)
+		hcl.cl.get_subscriber().publish(eventdata.event, hcl, eventdata.data)
 	})
-	cl.login(token)
+	hcl.cl.login(token)
 }
 
 // on for events
