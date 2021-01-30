@@ -19,7 +19,7 @@ pub mut:
 	last_heartbeat u64
 	closed bool
 	is_pinging bool
-	bus &EventBus
+	bus &eventbus.EventBus
 mut:
 	token string
 }
@@ -60,7 +60,7 @@ pub fn (mut cl Client) on(etype string, evthandler eventbus.EventHandlerFn) {
 }
 
 
-pub fn new_client(bot bool) Client {
+pub fn new_client() Client {
 	mut socket := websocket.new_client(socket_url) or { panic('Unable to connect') }
 	mut cl := Client{
 		ws: socket
