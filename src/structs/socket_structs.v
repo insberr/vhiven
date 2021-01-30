@@ -45,7 +45,7 @@ pub fn socket_msg_parse(msg &websocket.Message) ?WSMessage {
 	return new_msg
 }
 
-pub fn init_state_parse(data map[string]json2.Any) Init {
+pub fn init_state_parse(data map[string]json2.Any) InitState {
 	init_state := InitState{
 		user: User{},
 		settings: Setting{},
