@@ -26,15 +26,16 @@ fn get_hcl() &HivenClient {
 pub fn (mut hcl HivenClient) login(token string) {
 	mut cl := client.new_client()
 	hcl.cl = cl
-	hcl.cl.on('all_events', fn (recvr voidptr, eventdata voidptr, cl voidptr) {
-		mut hcl := get_hcl()
-		// change ready to init
-		if eventdata.event == 'ready' {
-			hcl.init_data = eventdata.data.str()
-		}
-		hcl.cl.get_subscriber().publish(eventdata.event, hcl, eventdata.data)
-	})
-	hcl.cl.login(token)
+
+	hcl.cl.on('init', on_init)
+
+	hcl.cl.login(hcl.bot, token)
+}
+
+fn on_init(recvr voidptr, data, cl &client.Client) ? {
+	mut hcl := get_hcl()
+	hcl.init_data = data.str()
+	hcl.cl.bus.publish('ready', cl, none)
 }
 
 // on for events
