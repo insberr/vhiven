@@ -79,7 +79,7 @@ pub fn new_client() Client {
 	cl.ws.on_close_ref(closefn, &cl)
 	cl.ws.on_error_ref(errorfn, &cl)
 
-	return cl
+	return &cl
 }
 
 pub fn (mut cl Client) login(bot bool, token string) {
