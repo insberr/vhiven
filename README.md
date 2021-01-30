@@ -1,25 +1,26 @@
 > **vhiven** - Hiven bot/self bot/api module for V  
-> **Status** - Slow but somehow getting there  
+> **Status** - Getting the actual v module part to work
 
 # vhiven
-Hiven bot/self bot/api module for V
+Hiven bot/self bot/api module for V.  
 
-This module does not function yet. It is still in the very early development stages  
+This module _should_ function now, but it is buggy.  
 
 ### Current Stage
-Successfully got it to login, but I need it to keep the connection  
-Somewhat parses messages from the MESSAGE_CREATE event  
+Keeps a connection with the websocket now and should authenticate.  
+Trying to get the module part of the module to work, else it wouldn't be a module : )  
 
 
 ### To Do
-- [] Keep a connection to the websocket
+- [x] Keep a connection to the websocket
 - [] Add rest api functions
+- [] Parse all events
 
 
 ## Example
 This is only a reference and may not be the actual structure  
-For the most up to date example go to [example.v](/example.v)  
-For the current structure go to [test_websocket.v](/test_websocket.v)
+For the most up to date example go to [example.v](/testing/example.v)  
+For the current structure go to [test_websocket.v](/testing/test_websocket.v)
 
 ```v
 module main
