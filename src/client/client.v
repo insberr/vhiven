@@ -9,11 +9,6 @@ import eventbus
 const bus = eventbus.new()
 const socket_url = 'wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json'
 
-pub enum Swarm {
-	.init_state
-	.message_create
-}
-
 // Client websocket client struct
 pub struct Client {
 pub mut:

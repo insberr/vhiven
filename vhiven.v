@@ -3,6 +3,7 @@ module vhiven
 
 import src.client
 import eventbus
+import x.json2
 
 // HivenClient the hiven client
 pub struct HivenClient {
@@ -32,7 +33,7 @@ pub fn (mut hcl HivenClient) login(token string) {
 	hcl.cl.login(hcl.bot, token)
 }
 
-fn on_init(recvr voidptr, data, cl &client.Client) ? {
+fn on_init(recvr voidptr, data map[string]json2.Any, cl &client.Client) ? {
 	mut hcl := get_hcl()
 	hcl.init_data = data.str()
 	hcl.cl.bus.publish('ready', cl, none)
