@@ -7,7 +7,8 @@ import src.structs
 import eventbus
 
 const bus = eventbus.new()
-const socket_url = 'wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json'
+// wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json
+const socket_url = 'wss://swarm-dev.hiven.io/socket?encoding=json'
 
 
 // Client websocket client struct
@@ -83,7 +84,7 @@ fn new_ws_client() Client {
 	return cl
 }
 
-fn login(mut cl &Client, bot bool, token string) {
+fn login(mut cl Client, bot bool, token string) {
 	println('logging in')
 	cl.token = token
 	cl.bot = bot
@@ -137,7 +138,7 @@ fn closefn(mut c websocket.Client, code int, reason string, mut cl &Client) ? {
 	})
 }
 
-fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
+fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl &Client) ? {
 	if msg.payload.len > 0 {
 		mut pck := structs.socket_msg_parse(msg) ?
 

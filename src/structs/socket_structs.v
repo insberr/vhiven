@@ -11,7 +11,8 @@ pub mut:
 	d map[string]json2.Any
 }
 
-fn makeopcode(opcode int, data map[string]json2.Any) string { // Creates the json to send to server
+// Creates the json to send to server
+fn makeopcode(opcode int, data map[string]json2.Any) string {
 	mut inst := map[string]json2.Any
 	inst['op'] = opcode
 	inst['d'] = data
@@ -19,7 +20,7 @@ fn makeopcode(opcode int, data map[string]json2.Any) string { // Creates the jso
 }
 
 // Parses websocket message into a string
-pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
+pub fn socket_msg_parse(msg &websocket.Message) ?WSMessage {
 	/*
 	println('socket_msg_parse')
 	
@@ -31,7 +32,7 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
     
 	println(' $test , $jdata , $opcode $data ')
 	*/
-	mut new_msg := &WSMessage{}
+	mut new_msg := WSMessage{}
 
 	mut obj := json2.raw_decode(string(msg.payload))?
 	mut obj_map := obj.as_map()
@@ -44,15 +45,15 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
 	return new_msg
 }
 
-pub fn init_state_parse(data map[string]json2.Any) &Init {
-	init := &Init{
-		user: &User{},
-		settings: &Setting{},
-		relationships: &Relationship{},
-		read_state: &ReadState{},
-		private_rooms: [&PrivateRoom{}],
-		presences: &Presence{},
-		house_memberships: [&HouseMembership{}],
+pub fn init_state_parse(data map[string]json2.Any) Init {
+	init := Init{
+		user: User{},
+		settings: Setting{},
+		relationships: Relationship{},
+		read_state: ReadState{},
+		private_rooms: [PrivateRoom{}],
+		presences: Presence{},
+		house_memberships: [HouseMembership{}],
 		house_ids: ['hello']
 	}
 
@@ -67,14 +68,14 @@ pub fn socket_msg_create(opcode int, data string) string {
 	return new_msg.str()
 }
 
-pub fn message_create_parse(data map[string]json2.Any) &Message {
-	message := &Message{
+pub fn message_create_parse(data map[string]json2.Any) Message {
+	message := Message{
 		timestamp: data["timestamp"].str(),
 		room_id: data["room_id"].str(),
-		mentions: [&Mention{}],
-		member: &Member{
-			user: &User{},
-			roles: [&Role{}]
+		mentions: [Mention{}],
+		member: Member{
+			user: User{},
+			roles: [Role{}]
 		},
 		id: data["id"].str(),
 		house_id: data["house_id"].str(),
@@ -84,16 +85,8 @@ pub fn message_create_parse(data map[string]json2.Any) &Message {
 		content: data["content"].str(),
 		bucket: data["bucket"].int(),
 		author_id: data["author_id"].str(),
-		author: &Author{}
+		author: Author{}
 	}
 
 	return message
 }
-
-// calling opcodes.login(token) will create a login opcode
-pub fn login(token string) string {
-	mut data := map[string]json2.Any
-	data["token"] = token
-	return makeopcode(2,data)
-}
-
