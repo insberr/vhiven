@@ -52,7 +52,7 @@ pub fn init_state_parse(data map[string]json2.Any) &Init {
 		read_state: &ReadState{},
 		private_rooms: [&PrivateRoom{}],
 		presences: &Presence{},
-		house_memberships: &HouseMembership{},
+		house_memberships: [&HouseMembership{}],
 		house_ids: ['hello']
 	}
 

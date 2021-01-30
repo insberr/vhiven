@@ -98,12 +98,12 @@ pub mut:
 pub struct Init {
 pub mut:
 	user           &User
-	settings       map[string]&Setting
-	relationships  map[string]&Relationship
-	read_state     map[string]&ReadState
+	settings       &Setting
+	relationships  &Relationship
+	read_state     &ReadState
 	private_rooms  []&PrivateRoom
-	presences      map[string]&Presence
-	house_memberships map[string]&HouseMembership
+	presences      &Presence
+	house_memberships []&HouseMembership
 	house_ids      []string
 }
 
