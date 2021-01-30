@@ -40,11 +40,11 @@ fn on_init(recvr voidptr, data &s.Init, cl &Client) ? {
 	hcl.cl.bus.publish('ready', cl, none)
 }
 
+fn get_subscriber(mut hcl HivenClient) eventbus.Subscriber {
+	mut bus := hcl.cl.bus
+	return *bus.subscriber
+}
 // on for events
 pub fn (mut hcl HivenClient) on(etype string, evthandler eventbus.EventHandlerFn) {
-	mut bus := hcl.cl.bus
-	fn get_subscriber() eventbus.Subscriber {
-		return *bus.subscriber
-	}
-	get_subscriber().subscribe(etype, evthandler)
+	get_subscriber(mut hcl).subscribe(etype, evthandler)
 }
