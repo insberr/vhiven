@@ -26,7 +26,7 @@ fn get_hcl() &HivenClient {
 pub fn (mut hcl HivenClient) login(token string) {
 	mut cl := client.new_client()
 	hcl.cl = cl
-	hcl.cl.on('all_events', fn (recvr voidptr, eventdata, cl) {
+	hcl.cl.on('all_events', fn (recvr voidptr, eventdata client.EventData, cl client.Client) {
 		mut hcl := get_hcl()
 		// change ready to init
 		if eventdata.event == 'ready' {
