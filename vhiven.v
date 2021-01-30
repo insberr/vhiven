@@ -1,7 +1,6 @@
 // vhiven is a hiven bot and api interaction library
 module vhiven
 
-import src.client
 import src.structs as s
 import eventbus
 
@@ -10,13 +9,13 @@ pub struct HivenClient {
 pub mut:
 	bot bool = true
 	init_data string
-	cl client.Client
+	cl &client.Client
 }
 
 // new_client create a new HivenClient
-pub fn new_client() HivenClient {
-	mut hcl := HivenClient{}
-	return hcl
+pub fn new_client() &HivenClient {
+	mut hcl := &HivenClient{}
+	return &hcl
 }
 
 fn get_hcl() &HivenClient {
@@ -26,12 +25,12 @@ fn get_hcl() &HivenClient {
 // login to the client
 pub fn (mut hcl HivenClient) login(token string) {
 	println("hcl login")
-	mut cl := client.new_client()
+	mut cl := new_client()
 	hcl.cl = cl
 
-	hcl.cl.on('init', on_init)
+	cl.on('init', on_init)
 
-	cl.login(hcl.bot, token)
+	go login(mut cl, hcl.bot, token)
 }
 
 fn on_init(recvr voidptr, data &s.Init, cl &client.Client) ? {
@@ -43,5 +42,9 @@ fn on_init(recvr voidptr, data &s.Init, cl &client.Client) ? {
 
 // on for events
 pub fn (mut hcl HivenClient) on(etype string, evthandler eventbus.EventHandlerFn) {
-	hcl.cl.bus.subscriber.subscribe(etype, evthandler)
+	mut bus := hcl.cl.bus
+	fn get_subscriber() eventbus.Subscriber {
+		return *bus.subscriber
+	}
+	get_subscriber().subscribe(etype, evthandler)
 }

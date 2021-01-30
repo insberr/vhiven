@@ -1,4 +1,4 @@
-module client
+module vhiven
 
 import time
 import x.websocket
@@ -8,6 +8,7 @@ import eventbus
 
 const bus = eventbus.new()
 const socket_url = 'wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json'
+
 
 // Client websocket client struct
 pub struct Client {
@@ -58,7 +59,7 @@ op codes
 */
 
 // get_subscriber get the eventbus
-pub fn get_subscriber() eventbus.Subscriber {
+fn get_subscriber() eventbus.Subscriber {
 	return *bus.subscriber
 }
 
@@ -67,7 +68,7 @@ pub fn (mut cl Client) on(etype string, evthandler eventbus.EventHandlerFn) {
 }
 
 
-pub fn new_client() Client {
+fn new_client() Client {
 	mut socket := websocket.new_client(socket_url) or { panic('Unable to connect') }
 	mut cl := Client{
 		ws: socket
@@ -82,7 +83,7 @@ pub fn new_client() Client {
 	return cl
 }
 
-pub fn (mut cl Client) login(bot bool, token string) {
+fn login(mut cl &Client, bot bool, token string) {
 	println('logging in')
 	cl.token = token
 	cl.bot = bot
@@ -112,7 +113,7 @@ pub fn (mut cl Client) login(bot bool, token string) {
 		if cl.closed {
 			return
 		}
-		time.sleep_ms(500)
+		time.sleep_ms(200)
 		now := time.now().unix_time_milli()
 		if now - cl.last_heartbeat > cl.heartbeat {
 			cl.ws.write_str('{ "op": 3 }') or { panic("failed to send op: $err") }
