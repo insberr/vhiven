@@ -114,7 +114,7 @@ pub fn (mut cl Client) login(bot bool, token string) {
 		time.sleep_ms(500)
 		now := time.now().unix_time_milli()
 		if now - cl.last_heartbeat > cl.heartbeat {
-			cl.ws.write_str('{ "op": 3 }') or { panic(err) }
+			cl.ws.write_str('{ "op": 3 }') or { panic("failed to send op: $err") }
 			bus.publish('socket_op3', cl, "opcode 3 (heartbeat) was sent.")
 			cl.last_heartbeat = now
 		}

@@ -31,7 +31,7 @@ pub fn (mut hcl HivenClient) login(token string) {
 
 	hcl.cl.on('init', on_init)
 
-	hcl.cl.login(hcl.bot, token)
+	go hcl.cl.login(hcl.bot, token)
 }
 
 fn on_init(recvr voidptr, data &s.Init, cl &client.Client) ? {

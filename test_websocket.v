@@ -32,7 +32,7 @@ fn main() {
 		println(msg.content)
 	})
 
-	cl.login(bot_token)
+	cl.login(true, bot_token)
 	// cl.run()
 	//ws.login(wstest,"token goes here")
 }
