@@ -31,7 +31,13 @@ pub fn (mut hcl HivenClient) login(token string) {
 
 	hcl.cl.on('init', on_init)
 
-	go cl.login(hcl.bot, token)
+	cl.login(hcl.bot, token)
+
+	for {
+		if cl.closed == true {
+			return
+		}
+	}
 }
 
 fn on_init(recvr voidptr, data &s.Init, cl &client.Client) ? {
