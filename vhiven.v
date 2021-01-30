@@ -9,7 +9,7 @@ pub struct HivenClient {
 pub mut:
 	bot bool = true
 	init_data string
-	cl &client.Client
+	cl &Client
 }
 
 // new_client create a new HivenClient
@@ -33,7 +33,7 @@ pub fn (mut hcl HivenClient) login(token string) {
 	go login(mut cl, hcl.bot, token)
 }
 
-fn on_init(recvr voidptr, data &s.Init, cl &client.Client) ? {
+fn on_init(recvr voidptr, data &s.Init, cl &Client) ? {
 	mut hcl := get_hcl()
 	println(data)
 	// hcl.init_data = data.str()
