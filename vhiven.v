@@ -33,13 +33,14 @@ pub fn (mut hcl HivenClient) login(token string) {
 	hcl.cl.login(hcl.bot, token)
 }
 
-fn on_init(recvr voidptr, args map[string]json2.Any, cl &client.Client) ? {
+fn on_init(recvr voidptr, data voidptr, cl &client.Client) ? {
 	mut hcl := get_hcl()
-	hcl.init_data = data.str()
+	println(data)
+	// hcl.init_data = data.str()
 	hcl.cl.bus.publish('ready', cl, none)
 }
 
 // on for events
 pub fn (mut hcl HivenClient) on(etype string, evthandler eventbus.EventHandlerFn) {
-	hcl.cl.bus.get_subscriber().subscribe(etype, evthandler)
+	hcl.cl.bus.subscriber.subscribe(etype, evthandler)
 }
