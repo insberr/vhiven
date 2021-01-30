@@ -9,7 +9,7 @@ pub struct HivenClient {
 pub mut:
 	bot bool = true
 	init_data string
-	cl &Client
+	cl Client
 }
 
 // new_client create a new HivenClient
