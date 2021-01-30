@@ -7,9 +7,9 @@ import eventbus
 // HivenClient the hiven client
 pub struct HivenClient {
 pub mut:
-	bot bool = true
+	bot       bool = true
 	init_data string
-	cl Client
+	cl        Client
 }
 
 // new_client create a new HivenClient
@@ -19,7 +19,7 @@ pub fn new_client() HivenClient {
 
 // login to the client
 pub fn (mut hcl HivenClient) login(token string) {
-	println("hcl login")
+	println('hcl login')
 	mut cl := new_ws_client()
 	hcl.cl = cl
 
@@ -34,7 +34,9 @@ fn on_init_state(recvr voidptr, data &s.InitState, cl &Client) ? {
 	bus.publish('ready', cl, none)
 }
 
+/*
 // on for events
 pub fn (mut hcl HivenClient) on(etype string, evthandler eventbus.EventHandlerFn) {
 	get_subscriber().subscribe(etype, evthandler)
 }
+*/

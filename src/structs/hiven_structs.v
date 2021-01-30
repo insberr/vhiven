@@ -5,21 +5,21 @@ pub:
 	username   string
 	user_flags string
 	name       string
-	id string
-	icon string
-	header string
-	bot bool
+	id         string
+	icon       string
+	header     string
+	bot        bool
 }
 
 pub struct Room {
 	name string
-	id string
+	id   string
 }
 
 pub struct House {
 pub mut:
-	name string
-	id string
+	name  string
+	id    string
 	rooms []&Room
 }
 
@@ -30,23 +30,23 @@ pub:
 
 pub struct Member {
 pub:
-	user_id string
-	user &User
-	roles []&Role
-	presence string
+	user_id                string
+	user                   &User
+	roles                  []&Role
+	presence               string
 	last_permission_update string
-	joined_at string
-	id string
-	house_id string
+	joined_at              string
+	id                     string
+	house_id               string
 }
 
 pub struct Author {
 pub:
-	username string
+	username   string
 	user_flags string
-	name string
-	icon string
-	header string
+	name       string
+	icon       string
+	header     string
 }
 
 pub struct Role {
@@ -71,11 +71,11 @@ pub mut:
 
 pub struct HouseMembership {
 pub mut:
-	user_id   string
-	roles     string
+	user_id                string
+	roles                  string
 	last_permission_update string
-	joined_at string
-	house_id  string
+	joined_at              string
+	house_id               string
 }
 
 pub struct Setting {
@@ -90,36 +90,36 @@ pub mut:
 
 pub struct ReadState {
 pub mut:
-	message_id string
+	message_id    string
 	mention_count int
 }
 
 // Events
 pub struct InitState {
 pub mut:
-	user           &User
-	settings       &Setting
-	relationships  &Relationship
-	read_state     &ReadState
-	private_rooms  []&PrivateRoom
-	presences      &Presence
+	user              &User
+	settings          &Setting
+	relationships     &Relationship
+	read_state        &ReadState
+	private_rooms     []&PrivateRoom
+	presences         &Presence
 	house_memberships []&HouseMembership
-	house_ids      []string
+	house_ids         []string
 }
 
 pub struct Message {
 pub:
-	timestamp string
-	room_id   string
-	mentions  []&Mention
-	member    &Member
-	id        string
-	house_id  string
+	timestamp     string
+	room_id       string
+	mentions      []&Mention
+	member        &Member
+	id            string
+	house_id      string
 	exploding_age int
-	exploding bool
-	device_id string
-	content   string
-	bucket    int
-	author_id string
-	author    &Author
+	exploding     bool
+	device_id     string
+	content       string
+	bucket        int
+	author_id     string
+	author        &Author
 }
