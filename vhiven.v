@@ -19,18 +19,18 @@ pub fn new_client() HivenClient {
 
 // login to the client
 pub fn (mut hcl HivenClient) login(token string) {
-	mut cl := client.new_client(mut hcl)
+	mut cl := client.new_client()
 	cl.on('all_events', fn (recvr voidptr, eventdata client.EventData, cl client.Client) {
 		// change ready to init
 		if eventdata.event == 'ready' {
 			hcl.init_data = eventdata.data.str()
 		}
-		client.get_subscriber().publish(eventdata.event, hcl, eventdata.data)
+		cl.get_subscriber().publish(eventdata.event, hcl, eventdata.data)
 	})
 	cl.login(token)
 }
 
 // on for events
 pub fn (mut hcl HivenClient) on(etype string, evthandler eventbus.EventHandlerFn) {
-	client.get_subscriber().subscribe(etype, evthandler)
+	cl.get_subscriber().subscribe(etype, evthandler)
 }
