@@ -29,7 +29,7 @@ pub fn (mut hcl HivenClient) login(token string) {
 }
 
 fn on_init_state(recvr voidptr, data &s.InitState, cl &Client) ? {
-	println(data)
+	// println(data)
 	// hcl.init_data = data.str()
 	bus.publish('ready', cl, none)
 }
