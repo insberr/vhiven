@@ -1,7 +1,7 @@
 // vhiven is a hiven bot and api interaction library
 module vhiven
 
-import src.structs as s
+// import src.structs as s
 
 // HivenClient the hiven client
 pub struct HivenClient {
@@ -17,6 +17,7 @@ pub fn new_client() HivenClient {
 }
 
 // login to the client
+// `token` is a string of the bot or user auth token
 pub fn (mut hcl HivenClient) login(token string) {
 	mut cl := new_ws_client()
 	hcl.cl = cl

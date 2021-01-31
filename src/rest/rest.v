@@ -1,13 +1,8 @@
-module rest
+module vhiven
 
 import net.http
 
-pub fn send(room_id string, content string, token string) {
-	mut res := http.post_json('https://api.hiven.io/v1/rooms/$room_id/messages',
-		'{"headers": {"Authorization": "$token"},"body": {"content":"$content"}}') or { return }
+fn rest_send(client Client, room_id string, content string) ? {
+	mut res := http.post_json('https://api.hiven.io/v1/rooms/$room_id/messages', '{"headers": {"Authorization": "$rest.client.token"},"body": {"content":"$content"}}') ?
 	println(res)
-}
-
-pub fn test() {
-	println('rest tested (not really)')
 }

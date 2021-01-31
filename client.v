@@ -3,7 +3,7 @@ module vhiven
 import time
 import x.websocket
 import x.json2
-import src.structs
+// import src.structs
 import eventbus
 
 const bus = eventbus.new()
@@ -128,14 +128,14 @@ fn closefn(mut c websocket.Client, code int, reason string, mut cl Client) ? {
 
 fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 	if msg.payload.len > 0 {
-		mut pck := structs.socket_msg_parse(msg) ?
+		mut packet := socket_msg_parse(msg) ?
 
-		match pck.op {
+		match packet.op {
 			0 {
-				match pck.e {
+				match packet.e {
 					'INIT_STATE' {
-						// println( pck.d )
-						ready_state_data := structs.ready_state_parse(pck.d)
+						// println( packet.d )
+						ready_state_data := ready_state_parse(packet.d)
 						// println( ptr_str(cl) )
 						// println(x)
 
@@ -144,30 +144,30 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 					'PRESENCE_UPDATE' {}
 					'RELATIONSHIP_UPDATE' {}
 					'MESSAGE_CREATE' {
-						message_create_data := structs.message_create_parse(pck.d)
+						message_create_data := message_create_parse(packet.d, mut cl)
 						bus.publish('message', cl, message_create_data)
 					}
-					'MESSAGE_DELETE' { bus.publish('msg_delete', cl, pck.d) }
-					'MESSAGE_UPDATE' { bus.publish('msg_update', cl, pck.d) }
-					'ROOM_CREATE' { bus.publish('room_created', cl, pck.d) }
+					'MESSAGE_DELETE' { bus.publish('msg_delete', cl, packet.d) }
+					'MESSAGE_UPDATE' { bus.publish('msg_update', cl, packet.d) }
+					'ROOM_CREATE' { bus.publish('room_created', cl, packet.d) }
 					'ROOM_UPDATE' {}
 					'ROOM_DELETE' {}
-					'HOUSE_JOIN' { bus.publish('house_enter', cl, pck.d) }
-					'HOUSE_LEAVE' { bus.publish('house_exit', cl, pck.d) }
-					'HOUSE_MEMBER_JOIN' { bus.publish('member_join', cl, pck.d) }
-					'HOUSE_MEMBER_EXIT' { bus.publish('member_leave', cl, pck.d) }
+					'HOUSE_JOIN' { bus.publish('house_enter', cl, packet.d) }
+					'HOUSE_LEAVE' { bus.publish('house_exit', cl, packet.d) }
+					'HOUSE_MEMBER_JOIN' { bus.publish('member_join', cl, packet.d) }
+					'HOUSE_MEMBER_EXIT' { bus.publish('member_leave', cl, packet.d) }
 					'HOUSE_MEMBER_ENTER' {}
 					'HOUSE_MEMBER_UPDATE' {}
 					'HOUSE_MEMBERS_CHUNK' {}
 					'BATCH_HOUSE_MEMBER_UPDATE' {}
 					'HOUSE_ENTITY_UPDATE' {}
-					'HOUSE_DOWN' { bus.publish('house_down', cl, pck.d) }
-					'TYPING_START' { bus.publish('typing', cl, pck.d) }
-					else { println('Event `$pck.e` not added') }
+					'HOUSE_DOWN' { bus.publish('house_down', cl, packet.d) }
+					'TYPING_START' { bus.publish('typing', cl, packet.d) }
+					else { println('Event `$packet.e` not added') }
 				}
 			}
 			1 {
-				cl.heartbeat = pck.d['hbt_int'].str().u64()
+				cl.heartbeat = packet.d['hbt_int'].str().u64()
 			}
 			2 {
 				println('got 2')
@@ -191,7 +191,7 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 				println('got 8')
 			}
 			else {
-				println('Invalid opcode recived: $pck.op\nData: $pck.d')
+				println('Invalid opcode recived: $packet.op\nData: $packet.d')
 			}
 		}
 	}

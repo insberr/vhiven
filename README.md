@@ -13,35 +13,42 @@ Trying to get the module part of the module to work, else it wouldn't be a modul
 
 ### To Do
 - [x] Keep a connection to the websocket
-- [] Add rest api functions
-- [] Parse all events
+- [ ] Add the ability to send messages
+- [ ] Add rest api functions
+- [ ] Parse all events
 
 
 ## Example
 This is only a reference and may not be the actual structure  
 For the most up to date example go to [example.v](/testing/example.v)  
-For the current structure go to [test_websocket.v](/testing/test_websocket.v)
 
 ```v
 module main
 
 import insberr.vhiven
+import zztkm.vdotenv
+
+// This file is not meant to be run in the module itself
 
 fn main() {
+	vdotenv.load()
+    bot_token := os.getenv('TOKEN')
+
 	mut client := vhiven.new_client()
 
-	client.bot = false // tells the module that this is being used for a self bot
-
-	client.on('ready', fn () {
-		println('ready!')
+	client.cl.on('ready', fn (recvr voidptr, data &vhiven.ReadyState, cl &vhiven.Client) {
+		println('ready')
 	})
 
-	client.on('someevent', fn (eventargs) {
-		// Do something
-		println('hi')
-	}) 
+	client.cl.on('message', fn (recvr voidptr, msg &vhiven.Message, cl &vhiven.Client) {
+		println(msg.content)
+	})
+	
+	client.cl.on('error', fn (recvr voidptr, error &vhiven.Error, cl &vhiven.Client) {
+		println('error: $error.e')
+	})
 
-	client.login('TOKEN')
+	client.login(bot_token)
 }
 ```
 

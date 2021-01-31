@@ -1,4 +1,4 @@
-module structs
+module vhiven
 
 pub struct User {
 pub:
@@ -108,7 +108,7 @@ pub mut:
 }
 
 pub struct Message {
-pub:
+pub mut:
 	timestamp     string
 	room_id       string
 	mentions      []&Mention
@@ -122,4 +122,9 @@ pub:
 	bucket        int
 	author_id     string
 	author        &Author
+	client        &Client
+}
+
+pub fn (mut msg Message) send(content string) {
+	rest_send()
 }
