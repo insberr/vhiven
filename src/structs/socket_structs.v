@@ -32,9 +32,10 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
     
 	println(' $test , $jdata , $opcode $data ')
 	*/
+	mut msg_pay_str := msg.payload.bytestr().replace('$', '0x24')
 	mut new_msg := &WSMessage{}
 
-	mut obj := json2.raw_decode(string(msg.payload)) ?
+	mut obj := json2.raw_decode(msg_pay_str) ?
 	mut obj_map := obj.as_map()
 
 	new_msg.seq = obj_map['seq'].int()
@@ -45,15 +46,15 @@ pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
 	return new_msg
 }
 
-pub fn ready_state_parse(data map[string]json2.Any) &ReadyState {
-	ready_state := &ReadyState{
-		user: &User{}
-		settings: &Setting{}
-		relationships: &Relationship{}
-		read_state: &ReadState{}
-		private_rooms: [&PrivateRoom{}]
-		presences: &Presence{}
-		house_memberships: [&HouseMembership{}]
+pub fn ready_state_parse(data map[string]json2.Any) ReadyState {
+	ready_state := ReadyState{
+		user: User{}
+		settings: Setting{}
+		relationships: Relationship{}
+		read_state: ReadState{}
+		private_rooms: [PrivateRoom{}]
+		presences: Presence{}
+		house_memberships: [HouseMembership{}]
 		house_ids: ['hello']
 	}
 
@@ -68,14 +69,14 @@ pub fn socket_msg_create(opcode int, data string) string {
 	return new_msg.str()
 }
 
-pub fn message_create_parse(data map[string]json2.Any) &Message {
-	message := &Message{
+pub fn message_create_parse(data map[string]json2.Any) Message {
+	message := Message{
 		timestamp: data['timestamp'].str()
 		room_id: data['room_id'].str()
-		mentions: [&Mention{}]
-		member: &Member{
-			user: &User{}
-			roles: [&Role{}]
+		mentions: [Mention{}]
+		member: Member{
+			user: User{}
+			roles: [Role{}]
 		}
 		id: data['id'].str()
 		house_id: data['house_id'].str()
@@ -85,7 +86,7 @@ pub fn message_create_parse(data map[string]json2.Any) &Message {
 		content: data['content'].str()
 		bucket: data['bucket'].int()
 		author_id: data['author_id'].str()
-		author: &Author{}
+		author: Author{}
 	}
 
 	return message

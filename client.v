@@ -133,7 +133,14 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 		match pck.op {
 			0 {
 				match pck.e {
-					'INIT_STATE' { bus.publish('ready', cl, structs.ready_state_parse(pck.d)) }
+					'INIT_STATE' {
+						println( pck.d )
+						x:= structs.ready_state_parse(pck.d)
+						println( ptr_str(cl) )
+						println(x)
+
+						bus.publish('ready', cl, x)
+					}
 					'PRESENCE_UPDATE' {}
 					'RELATIONSHIP_UPDATE' {}
 					'MESSAGE_CREATE' { bus.publish('message', cl, structs.message_create_parse(pck.d)) }
