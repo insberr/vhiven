@@ -134,16 +134,19 @@ fn messagefn(mut c websocket.Client, msg &websocket.Message, mut cl Client) ? {
 			0 {
 				match pck.e {
 					'INIT_STATE' {
-						println( pck.d )
-						x:= structs.ready_state_parse(pck.d)
-						println( ptr_str(cl) )
-						println(x)
+						// println( pck.d )
+						ready_state_data := structs.ready_state_parse(pck.d)
+						// println( ptr_str(cl) )
+						// println(x)
 
-						bus.publish('ready', cl, x)
+						bus.publish('ready', cl, ready_state_data)
 					}
 					'PRESENCE_UPDATE' {}
 					'RELATIONSHIP_UPDATE' {}
-					'MESSAGE_CREATE' { bus.publish('message', cl, structs.message_create_parse(pck.d)) }
+					'MESSAGE_CREATE' {
+						message_create_data := structs.message_create_parse(pck.d)
+						bus.publish('message', cl, message_create_data)
+					}
 					'MESSAGE_DELETE' { bus.publish('msg_delete', cl, pck.d) }
 					'MESSAGE_UPDATE' { bus.publish('msg_update', cl, pck.d) }
 					'ROOM_CREATE' { bus.publish('room_created', cl, pck.d) }

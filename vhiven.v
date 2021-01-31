@@ -18,7 +18,6 @@ pub fn new_client() HivenClient {
 
 // login to the client
 pub fn (mut hcl HivenClient) login(token string) {
-	println('hcl login')
 	mut cl := new_ws_client()
 	hcl.cl = cl
 
