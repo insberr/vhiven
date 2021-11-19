@@ -1,5 +1,5 @@
 > **vhiven** - Hiven bot/self bot/api module for V  
-> **Status** - Getting the actual v module part to work
+> **Status** - Remaking this because we like pain
 
 # vhiven
 Hiven bot/self bot/api module for V.  
