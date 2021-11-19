@@ -2,7 +2,7 @@
 image:
   file: .gitpod.Dockerfile
 tasks:
-  - init: v install zzktm.vdotenv
+  - init: v install zztkm.vdotenv
 vscode:
   extensions:
     - vlanguage.vscode-vlang
