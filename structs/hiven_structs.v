@@ -1,14 +1,26 @@
 module structs
+import x.json2
+
 
 pub struct User {
-pub:
+pub mut:
 	username   string
 	user_flags string
 	name       string
-	id         string
+	id         i64
 	icon       string
 	header     string
 	bot        bool
+}
+
+pub fn (mut u User) from_json(j json2.Any) {
+	je := j.as_map()
+	u.username = je["username"].str()
+	u.name = je["name"].str()
+	u.id = je["id"].str().i64()
+	u.icon = je["icon"].str()
+	u.header = je["header"].str()
+	u.user_flags = je["flags"].str()
 }
 
 pub struct Room {
@@ -29,29 +41,36 @@ pub:
 }
 
 pub struct Member {
-pub:
-	user_id                string
-	user                   &User
-	roles                  []&Role
-	presence               string
-	last_permission_update string
+pub mut:
+	user_id                i64
+	user                   User
+	roles                  []Role
+	presence               string // could be enum
+	last_permission_update i64
 	joined_at              string
-	id                     string
-	house_id               string
 }
 
-pub struct Author {
-pub:
-	username   string
-	user_flags string
-	name       string
-	icon       string
-	header     string
+pub fn (mut a Member) from_json(j json2.Any) {
+	je := j.as_map()
+	if je["user"].str() == "" {
+		println("no user found, flat tree")
+		a.user = User{}
+		a.user.from_json(j)
+		a.user_id = a.user.id
+	} else {
+		a.user = User{}
+		println("USER")
+		a.user.from_json(je["user"])
+		a.presence = je["presence"].str()
+		a.last_permission_update = je["last_permission_update"].str().i64()
+		a.user_id = je["user_id"].str().i64()
+	}
 }
+
 
 pub struct Role {
 pub:
-	id string
+	id i64
 }
 
 pub struct PrivateRoom {
@@ -109,22 +128,38 @@ pub mut:
 
 pub struct Message {
 pub mut:
-	timestamp     string
-	room_id       string
-	mentions      []&Mention
-	member        &Member
-	id            string
-	house_id      string
-	exploding_age int
+	timestamp     i64
+	room_id       i64
+	mentions      []Mention
+	member        Member
+	id            i64
+	house_id      i64
+	exploding_age i64
 	exploding     bool
-	device_id     string
+	device_id     i64
 	content       string
-	bucket        Unk
-	author_id     string
-	author        &Author
 }
-pub struct Unk {
-} // Replaces the any type in Message because idk the type of it. Would omitting it do anything? What even is a bucket?
+pub fn (mut msg Message) from_json(f json2.Any) {
+    obj := f.as_map()
+	msg.content = obj["content"].str()
+	msg.timestamp = obj["timestamp"].str().i64()
+	msg.room_id = obj["room_id"].str().i64()
+	msg.device_id = obj["device_id"].str().i64()
+	msg.exploding = obj["exploding"].bool()
+	msg.exploding_age = obj["exploding_age"].str().i64()
+	msg.house_id = obj["house_id"].str().i64()
+	msg.id = obj["id"].str().i64()
+	if !(obj["member"] is json2.Null) { 
+		// memb
+		println("member")
+		msg.member = json2.decode<Member>(obj["member"].json_str()) or { panic("Could not parse member") }
+	} else {
+		println("no member")
+		msg.member = json2.decode<Member>(obj["author"].json_str()) or { panic("Could not parse member") } // this sets the author
+	}
+	// author should hopefully exist always, i will cry if it doesn't
+	
+}
 /*
 pub fn (mut msg Message) send(content string) {
 	rest_send()

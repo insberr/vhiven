@@ -14,13 +14,14 @@ pub fn rest_new_request(token string, method http.Method, path string) ?http.Res
 */
 //fn rest_send(client Client, room_id string, content string) ? {
 
-pub fn rest_send(token string, room_id string, content string)? {
+pub fn send_message(token string, room_id i64, content string)? {
 	//mut res := http.post_json('https://api.hiven.io/v1/rooms/$room_id/messages', '{"headers": {"Authorization": "$token","Content-Type": "application/json"},"body": {"content":"$content"}}') ?
 	//mut res := rest_new_request(token, http.Method.post, '/rooms/$room_id/messages') ?
 	mut req := http.new_request(http.Method.post, api + '/rooms/$room_id/messages', '') ?
 	req.add_custom_header('Authorization', token)?
 	req.add_custom_header('Content-Type', "application/json")?
 	req.data = '{"content":"$content"}'
+	println(req)
 	mut res := req.do()?
 	println(res)
 }

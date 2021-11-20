@@ -8,43 +8,25 @@ import x.json2
 import time
 import rest
 import structs
-// wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json
-
-const hiven_endpoint = "wss://swarm.hiven.io/socket?encoding=json&compression=text_json"
+import client
 
 fn main() {
 	vdotenv.load()
 	bot_token := os.getenv('INSBERR_TOKEN')
-	cringe_id := "313544106225695554"
-	// let's connect to the websocket in vlang
-	mut websocket := websocket.new_client(hiven_endpoint) or { panic("Could not connect to websocket") }
-	websocket.connect() or { panic("Could not connect to websocket on connect") }
-	websocket.on_message(on_message) 
-	go websocket.listen() // or { panic("Uh oh") }
-	login(mut websocket, bot_token) or { panic("Uh oh no login cringe") }
+	mut cl := client.create_client(false)
+	cl.on_message = on_message
+	cl.run(bot_token) or {}
 
-	mut last_heartbeat := time.now().unix_time_milli()
-	println(last_heartbeat)
-	rest.rest_send(bot_token, cringe_id,"Bot start") or { panic("Uh oh no rest") }
-	mut hbamt := 0
-	for {
-		if time.now().unix_time_milli() - last_heartbeat > 30000 {
-			last_heartbeat = time.now().unix_time_milli()
-			websocket.write_string('{ "op": 3 }')?
-			println("Sent heartbeat")
-			// https://luna-klatzer.github.io/openhiven.py/0.2/api_reference/hiven_restapi.html
-			hbamt++
-			rest.rest_send(bot_token, cringe_id,"heartbeat #$hbamt") or { panic("Uh oh no heartbeat send cringe") }
-		}
-		/*
-			do not use this
-			for now
-			as it will spam the bot and cause it to be banned from the server for spamming bots (and possibly other things)
-		*/
-		// rest.rest_send(bot_token, "313551336077523788","Bot spam") or { panic("Uh oh no rest") }
-	}
 }
 
+fn on_message(msg structs.Message, mut cl client.Client) {
+	println("In Onmessage in the client!")
+	if msg.member.user.name != "insbit" {
+		println("Sending gamer message")
+		cl.send_message("Hello $msg.member.user.name! You said '$msg.content'", msg.room_id) or { panic("failure!") }
+	}
+}
+/*
 // login to the websocket
 fn login(mut c websocket.Client, auth_token string) ? {
 	println("Logging in...")
@@ -70,7 +52,7 @@ fn on_message(mut c websocket.Client, msg &websocket.Message) ? {
 		println("Cringe packet id: $wsm.op")
 	*/
 }
-
+*/
 
 /*
 import client
