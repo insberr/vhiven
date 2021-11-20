@@ -11,12 +11,12 @@ pub mut:
 	d   map[string]json2.Any
 }
 
-fn parse_socket_message(message &websocket.Message) ?WSMessage {
+pub fn parse_socket_message(message &websocket.Message) ?WSMessage {
 	// websocket message content | byte array -> string | replace `$` with its hex because json2 doesnt like `$`
 	mut payload := message.payload.bytestr().replace('$', '0x24')
 
-	mut parsed_json := json2.raw_decode(msg_pay_str) ?
-	mut mapped_json := parsed_json.as_map()
+	mut parsed_json := json2.raw_decode(payload) ?
+	mut obj_map := parsed_json.as_map()
 	
 	mut msg := WSMessage{}
 
@@ -27,7 +27,11 @@ fn parse_socket_message(message &websocket.Message) ?WSMessage {
 
 	return msg
 }
-
+// what even is this code for
+// parsing of websocket packets should be handeled by a parsing module, or maybe a static method of the struct, if supported.
+// structs.Message.parse(json data) -> Message
+// or just the message constructor?
+/*
 // socket_msg_parse Parses a websocket message into a WSMessage
 pub fn socket_msg_parse(msg &websocket.Message) ?&WSMessage {
 	/*
@@ -118,3 +122,4 @@ fn makeopcode(opcode int, data map[string]json2.Any) string {
 	inst['d'] = data
 	return inst.str()
 }
+*/

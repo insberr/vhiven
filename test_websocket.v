@@ -7,6 +7,7 @@ import os
 import x.json2
 import time
 import rest
+import structs
 // wss://swarm-dev.hiven.io/socket?encoding=json&compression=text_json
 
 const hiven_endpoint = "wss://swarm.hiven.io/socket?encoding=json&compression=text_json"
@@ -40,7 +41,7 @@ fn main() {
 			for now
 			as it will spam the bot and cause it to be banned from the server for spamming bots (and possibly other things)
 		*/
-		//rest.rest_send(bot_token, "313551336077523788","Bot spam") or { panic("Uh oh no rest") }
+		// rest.rest_send(bot_token, "313551336077523788","Bot spam") or { panic("Uh oh no rest") }
 	}
 }
 
@@ -55,12 +56,19 @@ fn login(mut c websocket.Client, auth_token string) ? {
 fn on_message(mut c websocket.Client, msg &websocket.Message) ? {
 	mut payload := msg.payload.bytestr().replace('$', '0x24')
 	println("Packet: " + payload)
+
 	cringe := json2.raw_decode(payload)?
 	packet := cringe.as_map()
 	op := packet["op"].int() // packet opcode
 	println("Cringe Packet ID: $op")
 	// message is a struct containing a .payload field which is []byte
 	// we need to convert it to a string
+	
+	/*
+		// idk what happened with this in the conflicts
+		wsm := structs.parse_socket_message(msg)?
+		println("Cringe packet id: $wsm.op")
+	*/
 }
 
 

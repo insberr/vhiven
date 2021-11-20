@@ -119,12 +119,14 @@ pub mut:
 	exploding     bool
 	device_id     string
 	content       string
-	bucket        any
+	bucket        Unk
 	author_id     string
 	author        &Author
-	client        &Client
 }
-
+pub struct Unk {
+} // Replaces the any type in Message because idk the type of it. Would omitting it do anything? What even is a bucket?
+/*
 pub fn (mut msg Message) send(content string) {
 	rest_send()
 }
+*/
