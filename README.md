@@ -1,3 +1,4 @@
+> **Sadly Hiven was ended**  
 > **vhiven** - Hiven bot/self bot/api module for V  
 > **Status** - Remaking this because we like pain
 
@@ -53,11 +54,11 @@ fn main() {
 ```
 
 ### Help
-Get help and info on my [Discord server](https://discord.gg/PSNKV6EB9A) or [Hiven house](https://hiven.house/4kjf9j)
+Get help and info on my [Discord server](https://discord.gg/gRMbZyU)~~ or [Hiven house](https://hiven.house/4kjf9j)~~
 
 
 ## Maintainers
-- [Insberr](https://github.com/insberr/)
+- [insberr](https://github.com/insberr/)
 - [Wackery](https://github.com/webmsgr/)
 
 

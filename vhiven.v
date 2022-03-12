@@ -1,7 +1,7 @@
 // vhiven is a hiven bot and api interaction library
 module vhiven
-
-// import src.structs as s
+import client
+import structs
 
 // HivenClient the hiven client
 pub struct HivenClient {

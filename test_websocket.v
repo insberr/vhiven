@@ -1,16 +1,11 @@
 // Language: V
 module main
-
-import net.websocket
-import zztkm.vdotenv
 import os
-import x.json2
-import time
-import rest
+import zztkm.vdotenv
 import structs
 import client
 
-fn main() {
+fn main() { 
 	vdotenv.load()
 	bot_token := os.getenv('INSBERR_TOKEN')
 	mut cl := client.create_client(false)
