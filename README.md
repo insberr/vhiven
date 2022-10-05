@@ -2,6 +2,7 @@
 > **Status** - Getting the actual v module part to work
 
 # vhiven
+**Unfortunatly Hiven no longer exists, an this is no longer maintained**
 Hiven bot/self bot/api module for V.  
 
 This module _should_ function now, but it is buggy.  
